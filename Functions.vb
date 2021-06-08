@@ -1,49 +1,17 @@
 ﻿Imports System.IO
 Imports System.Net
 
-Public Class Main
-    Const SetupFileName As String = "setup.exe"
-    Const ConfigFileName As String = "configuration.xml"
-    Const SetupURL As String = "https://github.com/asheroto/Deploy-Office-2019/raw/master/setup.exe"
-    Const ConfigURL As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/configuration.xml"
-    Dim TempPath As String = Path.GetTempPath
+Module Functions
 
-    Sub Download(URL As String, FileName As String)
-        Dim DownloadPath As String = Path.Combine(TempPath, FileName)
-
-        If File.Exists(DownloadPath) Then
-            Try
-                File.Delete(DownloadPath)
-            Catch ex As Exception
-                MsgBox(String.Format("Failed to delete existing {0}. Please end all setup.exe processes or restart your computer and try again." & vbNewLine & ex.Message, FileName), vbExclamation)
-                End
-            End Try
-
+    Function IsProcessRunning(ProcessName As String)
+        Dim p() As Process
+        p = Process.GetProcessesByName(ProcessName)
+        If p.Count > 0 Then
+            Return True
+        Else
+            Return False
         End If
-
-        Try
-            Dim wc As WebClient = New WebClient()
-            wc.DownloadFile(URL, DownloadPath)
-        Catch ex As Exception
-            MsgBox(String.Format("Failed to download {0}. Please ensure you have Internet connectivity or restart your computer and try again." & vbNewLine & ex.Message, FileName), vbExclamation)
-            End
-        End Try
-
-        If File.Exists(DownloadPath) = False Then
-            MsgBox(String.Format("Problem downloading {0}. Please ensure you have Internet connectivity or restart your computer and try again.", FileName), vbExclamation)
-        End If
-    End Sub
-
-    Sub RunSetup()
-        Dim x As New Process
-        x.StartInfo.FileName = Path.Combine(Application.StartupPath, SetupFileName)
-        x.StartInfo.Arguments = "/configure configuration.xml"
-        x.StartInfo.WorkingDirectory = Application.StartupPath
-        x.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
-        x.StartInfo.CreateNoWindow = True
-        x.Start()
-        x.WaitForExit()
-    End Sub
+    End Function
 
     Function CreateShortcut(ByVal TargetName As String, ByVal ShortcutPath As String, ByVal ShortcutName As String) As Boolean
         Dim oShell As Object
@@ -63,6 +31,45 @@ Public Class Main
         End Try
     End Function
 
+    Sub Download(URL As String, FileName As String)
+        Dim DownloadPath As String = Path.Combine(main.TempPath, FileName)
+
+        If File.Exists(DownloadPath) Then
+            Try
+                File.Delete(DownloadPath)
+            Catch ex As Exception
+                MsgBox(String.Format("Failed to delete existing {0}. Please end all setup.exe processes or restart your computer and try again." & vbNewLine & vbNewLine & ex.Message, FileName), vbExclamation)
+                End
+            End Try
+
+        End If
+
+        Try
+            Dim wc As WebClient = New WebClient()
+            wc.DownloadFile(URL, DownloadPath)
+        Catch ex As Exception
+            MsgBox(String.Format("Failed to download {0}. Please ensure you have Internet connectivity or restart your computer and try again." & vbNewLine & vbNewLine & ex.Message, FileName), vbExclamation)
+            End
+        End Try
+
+        If File.Exists(DownloadPath) = False Then
+            MsgBox(String.Format("Problem downloading {0}. Please ensure you have Internet connectivity or restart your computer and try again.", FileName), vbExclamation)
+        End If
+    End Sub
+
+    Sub RunSetup()
+        Dim x As New Process
+        x.StartInfo.FileName = Path.Combine(Application.StartupPath, Main.SetupFileName)
+        x.StartInfo.Arguments = "/configure configuration.xml"
+        x.StartInfo.WorkingDirectory = Application.StartupPath
+        x.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
+        x.StartInfo.CreateNoWindow = True
+        x.Start()
+
+        Threading.Thread.Sleep(10000)
+
+    End Sub
+
     Sub CreateDesktopShortcuts()
         Dim OfficeApps As New Dictionary(Of String, String)
         OfficeApps.Add("C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE", "Word")
@@ -81,8 +88,8 @@ Public Class Main
     End Sub
 
     Sub Cleanup()
-        Dim SetupPath As String = Path.Combine(TempPath, SetupFileName)
-        Dim ConfigPath As String = Path.Combine(TempPath, ConfigFileName)
+        Dim SetupPath As String = Path.Combine(Main.TempPath, Main.SetupFileName)
+        Dim ConfigPath As String = Path.Combine(Main.TempPath, Main.ConfigFileName)
 
         Try
             If File.Exists(SetupPath) Then
@@ -102,39 +109,10 @@ Public Class Main
     End Sub
 
     Sub LogAppend(text As String)
-        LogTextbox.AppendText(text & "..." & vbNewLine)
+        Main.LogTextbox.AppendText(text & "..." & vbNewLine)
     End Sub
 
-    Sub GoRun()
-        CountdownLabel.Text = "Running..."
-        Application.DoEvents()
-
-        'Download setup.exe
-        LogAppend("Downloading setup.exe")
-        Download(SetupURL, SetupFileName)
-
-        'Download configuration.xml
-        LogAppend("Downloading configuration.xml")
-        Download(ConfigURL, ConfigFileName)
-
-        'Run setup
-        LogAppend("Running setup")
-        RunSetup()
-
-        'Create desktop shortcuts
-        LogAppend("Creating desktop shortcuts")
-        CreateDesktopShortcuts()
-
-        'Cleanup
-        LogAppend("Cleaning up")
-        Cleanup()
-
-        'Finished
-        LogAppend("Finished")
-        CountdownLabel.Text = "Finished"
-    End Sub
-
-    Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Sub TLSchannelFix()
         'Enforce TLS secure channel
         Shell("reg add ""HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client"" /v ""DisabledByDefault"" /t REG_DWORD /d ""0"" /f", vbHidden)
         Shell("reg add ""HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client"" /v ""Enabled"" /t REG_DWORD /d ""1"" /f", vbHidden)
@@ -144,14 +122,4 @@ Public Class Main
         Shell("reg add ""HKLM\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319"" /v ""SchUseStrongCrypto"" /t REG_DWORD /d ""1"" /f", vbHidden)
     End Sub
 
-    Private Sub CountdownTimer_Tick(sender As Object, e As EventArgs) Handles CountdownTimer.Tick
-        CountdownLabel.Text = Integer.Parse(CountdownLabel.Text) - 1
-
-        If CountdownLabel.Text = 0 Then
-            CountdownTimer.Enabled = False
-
-            GoRun()
-        End If
-    End Sub
-
-End Class
+End Module

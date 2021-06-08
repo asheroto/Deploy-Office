@@ -60,6 +60,7 @@ Partial Class Main
         Me.LogTextbox.Location = New System.Drawing.Point(12, 131)
         Me.LogTextbox.Multiline = True
         Me.LogTextbox.Name = "LogTextbox"
+        Me.LogTextbox.ReadOnly = True
         Me.LogTextbox.Size = New System.Drawing.Size(515, 314)
         Me.LogTextbox.TabIndex = 2
         '
