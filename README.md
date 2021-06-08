@@ -17,3 +17,7 @@ Desktop shortcuts will be created for all Office applications.
 - Publisher
 - Access
 - Visio
+
+## Download
+
+Download the [latest version](https://github.com/asheroto/Deploy-Office-2019/releases/latest/download/Deploy-Office-2019.exe) in the releases section.
