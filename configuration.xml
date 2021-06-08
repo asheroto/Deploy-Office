@@ -13,9 +13,8 @@
     <Display AcceptEULA="True" />
     <Property Name="PinIconsToTaskbar" Value="False" />
     <Property Name="FORCEAPPSHUTDOWN" Value="True" />
-    <Property Name="SharedComputerLicensing" Value="0" />
-    <Property Name="SCLCacheOverride" Value="0" />
-    <Property Name="AUTOACTIVATE" Value="0" />
-    <Property Name="FORCEAPPSHUTDOWN" Value="False" />
-    <Property Name="DeviceBasedLicensing" Value="0" />
+    <Property Name="SCLCacheOverride" Value="False" />
+    <Property Name="AUTOACTIVATE" Value="False" />
+    <Property Name="SharedComputerLicensing" Value="False" />
+    <Property Name="DeviceBasedLicensing" Value="False" />
 </Configuration>
