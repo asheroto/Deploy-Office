@@ -62,6 +62,23 @@ Public Class Main
 
     End Function
 
+    Sub CreateDesktopShortcuts()
+        Dim OfficeApps As New Dictionary(Of String, String)
+        OfficeApps.Add("C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE", "Word")
+        OfficeApps.Add("C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE", "Excel")
+        OfficeApps.Add("C:\Program Files\Microsoft Office\root\Office16\POWERPNT.EXE", "PowerPoint")
+        OfficeApps.Add("C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE", "Outlook")
+        OfficeApps.Add("C:\Program Files\Microsoft Office\root\Office16\ONENOTE.EXE", "OneNote")
+        OfficeApps.Add("C:\Program Files\Microsoft Office\root\Office16\MSPUB.EXE", "Publisher")
+        OfficeApps.Add("C:\Program Files\Microsoft Office\root\Office16\MSACCESS.EXE", "Access")
+        OfficeApps.Add("C:\Program Files\Microsoft Office\root\Office16\WINPROJ.EXE", "Project")
+        OfficeApps.Add("C:\Program Files\Microsoft Office\root\Office16\VISIO.EXE", "Visio")
+
+        For Each exe As KeyValuePair(Of String, String) In OfficeApps
+            CreateShortcut(exe.Key, Environment.GetFolderPath(Environment.SpecialFolder.Desktop), exe.Value)
+        Next
+    End Sub
+
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
     End Sub
@@ -84,15 +101,8 @@ Public Class Main
             RunSetup()
 
             'Create desktop shortcuts
-            Dim OfficeApps() As String =
-                {
-                    "C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE",
-                    "C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE",
-                    "C:\Program Files\Microsoft Office\root\Office16\POWERPNT.EXE",
-                    "C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE",
-                    "C:\Program Files\Microsoft Office\root\Office16\ONENOTE.EXE",
-                    "C:\Program Files\Microsoft Office\root\Office16\MSPUB.EXE",
-                }
+            CreateDesktopShortcuts()
+
             End
         End If
     End Sub
