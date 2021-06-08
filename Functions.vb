@@ -73,8 +73,8 @@ Module Functions
     End Sub
 
     Sub RunSetup()
+        'Run setup
         Dim SetupPath As String = Path.Combine(Main.TempPath, Main.SetupFileName)
-
         Dim x As New Process
         x.StartInfo.FileName = SetupPath
         x.StartInfo.Arguments = "/configure configuration.xml"
@@ -83,8 +83,11 @@ Module Functions
         x.StartInfo.CreateNoWindow = True
         x.Start()
 
-
-
+        'Wait until installation is finished
+        Do Until x.HasExited
+            Application.DoEvents()
+            Threading.Thread.Sleep(500)
+        Loop
     End Sub
 
     Sub CreateDesktopShortcuts()

@@ -1,20 +1,17 @@
 <Configuration>
     <Add OfficeClientEdition="64" Channel="PerpetualVL2019" AllowCdnFallback="True" OfficeMgmtCOM="False">
-        <Product ID="ProPlus2019Volume" PIDKEY="NMMKJ-6RK4F-KMJVX-8D9MJ-6MWKP">
+        <Product ID="ProPlus2019Volume">
             <Language ID="en-us" />
         </Product>
-        <Product ID="VisioPro2019Volume" PIDKEY="9BGNQ-K37YR-RQHF2-38RQ3-7VCBB">
+        <Product ID="VisioPro2019Volume">
             <Language ID="en-us" />
         </Product>
-        <Product ID="ProjectPro2019Volume" PIDKEY="B4NPR-3FKK7-T2MBV-FRQ4W-PKD2B">
+        <Product ID="ProjectPro2019Volume">
             <Language ID="en-us" />
         </Product>
     </Add>
     <Display AcceptEULA="True" />
     <Property Name="PinIconsToTaskbar" Value="False" />
     <Property Name="FORCEAPPSHUTDOWN" Value="True" />
-    <Property Name="SCLCacheOverride" Value="False" />
     <Property Name="AUTOACTIVATE" Value="False" />
-    <Property Name="SharedComputerLicensing" Value="False" />
-    <Property Name="DeviceBasedLicensing" Value="False" />
 </Configuration>
