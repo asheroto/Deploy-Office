@@ -1,33 +1,47 @@
 ﻿Imports System.IO
+Imports System.Net
 
 Public Class Main
+    Const SetupFileName As String = "setup.exe"
+    Const ConfigFileName As String = "configuration.xml"
+    Dim SetupURL As String = "https://github.com/asheroto/Deploy-Office-2019/releases/latest/download/setup.exe"
+    Dim ConfigURL As String = "https://github.com/asheroto/Deploy-Office-2019/releases/latest/download/configuration.xml"
 
-    Sub DownloadSetup()
-        Dim SetupPath As String = Path.Combine(Application.StartupPath, "setup.exe")
-        Dim SetupURL As String = "https://github.com/asheroto/Deploy-Office-2019/releases/latest/download/setup.exe"
+    Sub Download(URL As String, FileName As String)
+        Dim DownloadPath As String = Path.Combine(Application.StartupPath, FileName)
 
-        If File.Exists(SetupPath) Then
+        If File.Exists(DownloadPath) Then
             Try
-                File.Delete(SetupPath)
+                File.Delete(DownloadPath)
             Catch ex As Exception
-                MsgBox("Failed to delete existing setup.exe. Please end all setup.exe processes or restart your computer and try again.", vbExclamation)
+                MsgBox(String.Format("Failed to delete existing {0}. Please end all setup.exe processes or restart your computer and try again.", FileName), vbExclamation)
                 End
             End Try
 
         End If
 
         Try
-            My.Computer.Network.DownloadFile(SetupURL, SetupPath)
+            Dim wc As WebClient = New WebClient()
+            wc.DownloadFile(SetupURL, DownloadPath)
         Catch ex As Exception
-            MsgBox("Failed to download setup.exe. Please ensure you have Internet connectivity or restart your computer and try again.", vbExclamation)
+            MsgBox(String.Format("Failed to download {0}. Please ensure you have Internet connectivity or restart your computer and try again.", FileName), vbExclamation)
             End
         End Try
 
-        MsgBox(Application.StartupPath)
+        If File.Exists(DownloadPath) = False Then
+            MsgBox(String.Format("Problem downloading {0}. Please ensure you have Internet connectivity or restart your computer and try again.", FileName), vbExclamation)
+        End If
+
     End Sub
 
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        DownloadSetup()
+        'Download setup.exe
+        Download(SetupURL, SetupFileName)
+
+        'Download configuration.xml
+        Download(ConfigURL, ConfigFileName)
+
+        End
     End Sub
 
 End Class
