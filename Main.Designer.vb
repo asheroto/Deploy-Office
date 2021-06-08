@@ -27,6 +27,7 @@ Partial Class Main
         Me.CountdownTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MainLabel = New System.Windows.Forms.Label()
         Me.CountdownLabel = New System.Windows.Forms.Label()
+        Me.LogTextbox = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
         'CountdownTimer
@@ -54,12 +55,21 @@ Partial Class Main
         Me.CountdownLabel.Text = "10"
         Me.CountdownLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
+        'LogTextbox
+        '
+        Me.LogTextbox.Location = New System.Drawing.Point(12, 131)
+        Me.LogTextbox.Multiline = True
+        Me.LogTextbox.Name = "LogTextbox"
+        Me.LogTextbox.Size = New System.Drawing.Size(515, 314)
+        Me.LogTextbox.TabIndex = 2
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(539, 157)
+        Me.ClientSize = New System.Drawing.Size(539, 457)
+        Me.Controls.Add(Me.LogTextbox)
         Me.Controls.Add(Me.CountdownLabel)
         Me.Controls.Add(Me.MainLabel)
         Me.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -69,10 +79,12 @@ Partial Class Main
         Me.Name = "Main"
         Me.Text = "Form1"
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
     Friend WithEvents CountdownTimer As Timer
     Friend WithEvents MainLabel As Label
     Friend WithEvents CountdownLabel As Label
+    Friend WithEvents LogTextbox As TextBox
 End Class
