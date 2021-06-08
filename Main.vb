@@ -1,6 +1,8 @@
 ﻿Imports System.IO
 
 Public Class Main
+    Public ApplicationName = "Deploy Office 2019"
+
     Public Const SetupFileName As String = "setup.exe"
     Public Const ConfigFileName As String = "configuration.xml"
     Public Const SetupURL As String = "https://github.com/asheroto/Deploy-Office-2019/raw/master/setup.exe"
@@ -63,7 +65,6 @@ Public Class Main
         Loop
         c.Stop()
         End
-
 
     End Sub
 

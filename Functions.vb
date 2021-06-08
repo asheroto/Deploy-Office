@@ -1,6 +1,5 @@
 ﻿Imports System.IO
 Imports System.Net
-Imports System.Threading
 
 Module Functions
 
@@ -33,7 +32,7 @@ Module Functions
             Try
                 File.Delete(DownloadPath)
             Catch ex As Exception
-                MsgBox(String.Format("Failed to delete existing {0}. Please end all setup.exe processes or restart your computer and try again." & vbNewLine & vbNewLine & ex.Message, FileName), vbExclamation)
+                MsgBox(String.Format("Failed to delete existing {0}. Please end all setup.exe processes or restart your computer and try again." & vbNewLine & vbNewLine & ex.Message, FileName), vbExclamation, Main.ApplicationName)
                 End
             End Try
 
@@ -53,12 +52,12 @@ Module Functions
             taskA.Wait()
             If taskA.IsFaulted Then Throw New Exception
         Catch ex As Exception
-            MsgBox(String.Format("Failed to download {0}. Please ensure you have Internet connectivity or restart your computer and try again." & vbNewLine & vbNewLine & ex.Message, FileName), vbExclamation)
+            MsgBox(String.Format("Failed to download {0}. Please ensure you have Internet connectivity or restart your computer and try again." & vbNewLine & vbNewLine & ex.Message, FileName), vbExclamation, Main.ApplicationName)
             End
         End Try
 
         If File.Exists(DownloadPath) = False Then
-            MsgBox(String.Format("Problem downloading {0}. Please ensure you have Internet connectivity or restart your computer and try again.", FileName), vbExclamation)
+            MsgBox(String.Format("Problem downloading {0}. Please ensure you have Internet connectivity or restart your computer and try again.", FileName), vbExclamation, Main.ApplicationName)
         End If
     End Sub
 
@@ -89,7 +88,6 @@ Module Functions
         OfficeApps.Add("C:\Program Files\Microsoft Office\root\Office16\ONENOTE.EXE", "OneNote")
         OfficeApps.Add("C:\Program Files\Microsoft Office\root\Office16\MSPUB.EXE", "Publisher")
         OfficeApps.Add("C:\Program Files\Microsoft Office\root\Office16\MSACCESS.EXE", "Access")
-        OfficeApps.Add("C:\Program Files\Microsoft Office\root\Office16\WINPROJ.EXE", "Project")
         OfficeApps.Add("C:\Program Files\Microsoft Office\root\Office16\VISIO.EXE", "Visio")
 
         For Each exe As KeyValuePair(Of String, String) In OfficeApps
