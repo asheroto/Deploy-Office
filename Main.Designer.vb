@@ -38,7 +38,8 @@ Partial Class Main
         'MainLabel
         '
         Me.MainLabel.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MainLabel.Location = New System.Drawing.Point(12, 23)
+        Me.MainLabel.Location = New System.Drawing.Point(12, 9)
+        Me.MainLabel.Margin = New System.Windows.Forms.Padding(0)
         Me.MainLabel.Name = "MainLabel"
         Me.MainLabel.Size = New System.Drawing.Size(515, 48)
         Me.MainLabel.TabIndex = 0
@@ -48,20 +49,21 @@ Partial Class Main
         'CountdownLabel
         '
         Me.CountdownLabel.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CountdownLabel.Location = New System.Drawing.Point(12, 71)
+        Me.CountdownLabel.Location = New System.Drawing.Point(12, 57)
+        Me.CountdownLabel.Margin = New System.Windows.Forms.Padding(0)
         Me.CountdownLabel.Name = "CountdownLabel"
-        Me.CountdownLabel.Size = New System.Drawing.Size(515, 48)
+        Me.CountdownLabel.Size = New System.Drawing.Size(515, 31)
         Me.CountdownLabel.TabIndex = 1
         Me.CountdownLabel.Text = "10"
         Me.CountdownLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'LogTextbox
         '
-        Me.LogTextbox.Location = New System.Drawing.Point(12, 131)
+        Me.LogTextbox.Location = New System.Drawing.Point(12, 108)
         Me.LogTextbox.Multiline = True
         Me.LogTextbox.Name = "LogTextbox"
         Me.LogTextbox.ReadOnly = True
-        Me.LogTextbox.Size = New System.Drawing.Size(515, 314)
+        Me.LogTextbox.Size = New System.Drawing.Size(515, 337)
         Me.LogTextbox.TabIndex = 2
         '
         'Main
@@ -69,16 +71,18 @@ Partial Class Main
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(539, 457)
+        Me.ClientSize = New System.Drawing.Size(539, 461)
         Me.Controls.Add(Me.LogTextbox)
         Me.Controls.Add(Me.CountdownLabel)
         Me.Controls.Add(Me.MainLabel)
         Me.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.MaximizeBox = False
         Me.Name = "Main"
-        Me.Text = "Form1"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.Text = "Deploy Office 2019"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

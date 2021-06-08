@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Net
+Imports System.Threading
 
 Module Functions
 
@@ -18,12 +19,16 @@ Module Functions
         Dim oLink As Object
 
         Try
+            Dim ShortcutFullPath As String = Path.Combine(ShortcutPath, ShortcutName & ".lnk")
+
             oShell = CreateObject("WScript.Shell")
-            oLink = oShell.CreateShortcut(Path.Combine(ShortcutPath, ShortcutName & ".lnk"))
+            oLink = oShell.CreateShortcut(ShortcutFullPath)
 
             oLink.TargetPath = TargetName
             oLink.WindowStyle = 1
             oLink.Save()
+
+            Application.DoEvents()
 
             Return True
         Catch ex As Exception
@@ -32,7 +37,7 @@ Module Functions
     End Function
 
     Sub Download(URL As String, FileName As String)
-        Dim DownloadPath As String = Path.Combine(main.TempPath, FileName)
+        Dim DownloadPath As String = Path.Combine(Main.TempPath, FileName)
 
         If File.Exists(DownloadPath) Then
             Try
@@ -45,8 +50,18 @@ Module Functions
         End If
 
         Try
-            Dim wc As WebClient = New WebClient()
-            wc.DownloadFile(URL, DownloadPath)
+            Dim taskA As Task = New Task(Function()
+                                             Try
+                                                 Dim wc As WebClient = New WebClient()
+                                                 wc.DownloadFile(URL, DownloadPath)
+                                                 Return True
+                                             Catch ex As Exception
+                                                 Return False
+                                             End Try
+                                         End Function)
+            taskA.Start()
+            taskA.Wait()
+            If taskA.IsFaulted Then Throw New Exception
         Catch ex As Exception
             MsgBox(String.Format("Failed to download {0}. Please ensure you have Internet connectivity or restart your computer and try again." & vbNewLine & vbNewLine & ex.Message, FileName), vbExclamation)
             End
@@ -58,15 +73,17 @@ Module Functions
     End Sub
 
     Sub RunSetup()
+        Dim SetupPath As String = Path.Combine(Main.TempPath, Main.SetupFileName)
+
         Dim x As New Process
-        x.StartInfo.FileName = Path.Combine(Application.StartupPath, Main.SetupFileName)
+        x.StartInfo.FileName = SetupPath
         x.StartInfo.Arguments = "/configure configuration.xml"
-        x.StartInfo.WorkingDirectory = Application.StartupPath
+        x.StartInfo.WorkingDirectory = Main.TempPath
         x.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
         x.StartInfo.CreateNoWindow = True
         x.Start()
 
-        Threading.Thread.Sleep(10000)
+
 
     End Sub
 
