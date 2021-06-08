@@ -4,16 +4,6 @@ Imports System.Threading
 
 Module Functions
 
-    Function IsProcessRunning(ProcessName As String)
-        Dim p() As Process
-        p = Process.GetProcessesByName(ProcessName)
-        If p.Count > 0 Then
-            Return True
-        Else
-            Return False
-        End If
-    End Function
-
     Function CreateShortcut(ByVal TargetName As String, ByVal ShortcutPath As String, ByVal ShortcutName As String) As Boolean
         Dim oShell As Object
         Dim oLink As Object

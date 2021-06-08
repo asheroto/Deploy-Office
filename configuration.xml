@@ -6,9 +6,6 @@
         <Product ID="VisioPro2019Volume">
             <Language ID="en-us" />
         </Product>
-        <Product ID="ProjectPro2019Volume">
-            <Language ID="en-us" />
-        </Product>
     </Add>
     <Display AcceptEULA="True" />
     <Property Name="PinIconsToTaskbar" Value="False" />
