@@ -123,6 +123,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Configurations\ConfigurationOutlookOnly.xml" />
+    <Content Include="Configurations\ConfigurationVisioOnly.xml" />
+    <Content Include="Configurations\ConfigurationExcelOnly.xml" />
+    <Content Include="Configurations\ConfigurationWordOnly.xml" />
     <Content Include="Configurations\ConfigurationWordExcelPowerPointOutlookOnly.xml" />
     <Content Include="Configurations\ConfigurationPowerPointOnly.xml" />
     <Content Include="Configurations\ConfigurationAll.xml" />

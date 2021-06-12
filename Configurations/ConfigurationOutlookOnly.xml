@@ -1,15 +1,6 @@
 ﻿<Configuration>
   <Add OfficeClientEdition="64" Channel="PerpetualVL2019" AllowCdnFallback="True" OfficeMgmtCOM="False">
-    <Product ID="Word2019Volume">
-      <Language ID="en-us" />
-    </Product>
-    <Product ID="Excel2019Volume">
-      <Language ID="en-us" />
-    </Product>
     <Product ID="Outlook2019Volume">
-      <Language ID="en-us" />
-    </Product>
-    <Product ID="PowerPoint2019Volume">
       <Language ID="en-us" />
     </Product>
   </Add>

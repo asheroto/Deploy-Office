@@ -6,8 +6,12 @@ Public Class Main
     Public Const SetupFileName As String = "setup.exe"
     Public Const ConfigFileName As String = "configuration.xml"
     Public Const SetupURL As String = "https://github.com/asheroto/Deploy-Office-2019/raw/master/setup.exe"
+    Public Const ConfigURL_VisioOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationVisioOnly.xml"
     Public Const ConfigURL_AllPlusVisio As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationAllPlusVisio.xml"
     Public Const ConfigURL_All As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationAll.xml"
+    Public Const ConfigURL_WordOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationWordOnly.xml"
+    Public Const ConfigURL_ExcelOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationExcelOnly.xml"
+    Public Const ConfigURL_OutlookdOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationOutlookOnly.xml"
     Public Const ConfigURL_PowerPointOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationPowerPointOnly.xml"
     Public Const ConfigURL_WordExcelPowerPointOutlookOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationWordExcelPowerPointOutlookOnly.xml"
     Public TempPath As String = Path.GetTempPath
@@ -15,6 +19,9 @@ Public Class Main
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Adjust height
         Me.Height = 145
+
+        'Default selection
+        EditionSelector.SelectedIndex = 0
 
         'Fix TLS 1.2 not enabled
         TLSchannelFix()
@@ -47,6 +54,14 @@ Public Class Main
                 ConfigURL = ConfigURL_AllPlusVisio
             Case "All"
                 ConfigURL = ConfigURL_All
+            Case "Word Only"
+                ConfigURL = ConfigURL_WordOnly
+            Case "Excel Only"
+                ConfigURL = ConfigURL_ExcelOnly
+            Case "Outlook Only"
+                ConfigURL = ConfigURL_OutlookdOnly
+            Case "Visio Only"
+                ConfigURL = ConfigURL_VisioOnly
             Case "PowerPoint Only"
                 ConfigURL = ConfigURL_PowerPointOnly
             Case "Word, Excel, PowerPoint, Outlook Only"
@@ -77,4 +92,14 @@ Public Class Main
 
     End Sub
 
+    Private Sub EditionSelector_SelectedIndexChanged(sender As Object, e As EventArgs) Handles EditionSelector.SelectedIndexChanged
+        CountdownTimer.Enabled = False
+        CountdownLabel.Text = 10
+        CountdownTimer.Enabled = True
+    End Sub
+
+    Private Sub EditionSelector_DropDown(sender As Object, e As EventArgs) Handles EditionSelector.DropDown
+        CountdownTimer.Enabled = False
+        CountdownLabel.Text = "Paused"
+    End Sub
 End Class

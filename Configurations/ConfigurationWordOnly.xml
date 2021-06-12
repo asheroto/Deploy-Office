@@ -3,15 +3,6 @@
     <Product ID="Word2019Volume">
       <Language ID="en-us" />
     </Product>
-    <Product ID="Excel2019Volume">
-      <Language ID="en-us" />
-    </Product>
-    <Product ID="Outlook2019Volume">
-      <Language ID="en-us" />
-    </Product>
-    <Product ID="PowerPoint2019Volume">
-      <Language ID="en-us" />
-    </Product>
   </Add>
   <Display AcceptEULA="True" />
   <Property Name="PinIconsToTaskbar" Value="False" />
