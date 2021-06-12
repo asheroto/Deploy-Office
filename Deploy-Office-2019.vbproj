@@ -114,6 +114,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="LICENSE" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
@@ -125,6 +126,7 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Configurations\ConfigurationOutlookOnly.xml" />
@@ -136,6 +138,7 @@
     <Content Include="Configurations\ConfigurationAll.xml" />
     <Content Include="Configurations\ConfigurationAllPlusVisio.xml" />
     <Content Include="icon.ico" />
+    <Content Include="setup.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
