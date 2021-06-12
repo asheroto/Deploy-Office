@@ -6,9 +6,9 @@ Easily install Office 2019. Simply open the program and it will start installing
 
 Everything is downloaded from the cloud, so you'll always have the latest version available when installing.
 
-Desktop shortcuts will be created for all Office applications.
+Desktop shortcuts will be created for the installed Office application(s).
 
-**Office applications installed:**
+**Office applications installed in Professional Plus:**
 - Word
 - Excel
 - PowerPoint
@@ -17,6 +17,11 @@ Desktop shortcuts will be created for all Office applications.
 - Publisher
 - Access
 - Visio
+
+Alternatively you can select which specific program you want installed.
+
+## Screenshot
+![Screenshot](https://i.imgur.com/Ww5b3LB.png)
 
 ## Download
 
