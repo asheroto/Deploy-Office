@@ -25,7 +25,7 @@ Module Functions
         End Try
     End Function
 
-    Function Download(URL As String, FileName As String)
+    Sub Download(URL As String, FileName As String)
         Dim DownloadPath As String = Path.Combine(Main.TempPath, FileName)
 
         If File.Exists(DownloadPath) Then
@@ -39,29 +39,18 @@ Module Functions
         End If
 
         Try
-            Dim taskA As Task = New Task(Function()
-                                             Try
-                                                 Dim wc As WebClient = New WebClient()
-                                                 wc.DownloadFile(URL, DownloadPath)
-                                                 Return True
-                                             Catch ex As Exception
-                                                 Return False
-                                             End Try
-                                         End Function)
-            taskA.Start()
-            taskA.Wait()
-            If taskA.IsFaulted Then Throw New Exception
-            Return True
+            Dim wc As WebClient = New WebClient()
+            wc.DownloadFile(URL, DownloadPath)
         Catch ex As Exception
             MsgBox(String.Format("Failed to download {0}. Please ensure you have Internet connectivity or restart your computer and try again." & vbNewLine & vbNewLine & ex.Message, FileName), vbExclamation, Main.ApplicationName)
-            Return False
+            End
         End Try
 
         If File.Exists(DownloadPath) = False Then
             MsgBox(String.Format("Problem downloading {0}. Please ensure you have Internet connectivity or restart your computer and try again.", FileName), vbExclamation, Main.ApplicationName)
-            Return False
+            End
         End If
-    End Function
+    End Sub
 
     Sub RunSetup()
         'Run setup

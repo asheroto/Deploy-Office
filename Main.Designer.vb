@@ -71,7 +71,7 @@ Partial Class Main
         '
         Me.EditionSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.EditionSelector.FormattingEnabled = True
-        Me.EditionSelector.Items.AddRange(New Object() {"All & Visio", "All", "Word Only", "Excel Only", "PowerPoint Only", "Outlook Only", "Visio Only", "Word, Excel, PowerPoint, Outlook Only"})
+        Me.EditionSelector.Items.AddRange(New Object() {"Professional Plus + Visio", "Professional Plus", "Word Only", "Excel Only", "PowerPoint Only", "Outlook Only", "Visio Only", "Word, Excel, PowerPoint, Outlook Only"})
         Me.EditionSelector.Location = New System.Drawing.Point(354, 63)
         Me.EditionSelector.Name = "EditionSelector"
         Me.EditionSelector.Size = New System.Drawing.Size(173, 25)

@@ -7,8 +7,8 @@ Public Class Main
     Public Const ConfigFileName As String = "configuration.xml"
     Public Const SetupURL As String = "https://github.com/asheroto/Deploy-Office-2019/raw/master/setup.exe"
     Public Const ConfigURL_VisioOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationVisioOnly.xml"
-    Public Const ConfigURL_AllPlusVisio As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationAllPlusVisio.xml"
-    Public Const ConfigURL_All As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationAll.xml"
+    Public Const ConfigURL_ProfessionalPlusVisio As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationAllPlusVisio.xml"
+    Public Const ConfigURL_ProfessionalPlus As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationAll.xml"
     Public Const ConfigURL_WordOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationWordOnly.xml"
     Public Const ConfigURL_ExcelOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationExcelOnly.xml"
     Public Const ConfigURL_OutlookdOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationOutlookOnly.xml"
@@ -45,16 +45,16 @@ Public Class Main
 
         'Download setup.exe
         LogAppend("Downloading setup.exe")
-        If Download(SetupURL, SetupFileName) = False Then End
+        Download(SetupURL, SetupFileName)
 
         'Download configuration.xml
         LogAppend("Downloading configuration.xml")
         Dim ConfigURL As String = Nothing
         Select Case EditionSelector.SelectedItem.ToString
-            Case "All & Visio"
-                ConfigURL = ConfigURL_AllPlusVisio
-            Case "All"
-                ConfigURL = ConfigURL_All
+            Case "Professional Plus + Visio"
+                ConfigURL = ConfigURL_ProfessionalPlusVisio
+            Case "Professional Plus"
+                ConfigURL = ConfigURL_ProfessionalPlus
             Case "Word Only"
                 ConfigURL = ConfigURL_WordOnly
             Case "Excel Only"
@@ -68,7 +68,7 @@ Public Class Main
             Case "Word, Excel, PowerPoint, Outlook Only"
                 ConfigURL = ConfigURL_WordExcelPowerPointOutlookOnly
         End Select
-        If Download(ConfigURL, ConfigFileName) = False Then End
+        Download(ConfigURL, ConfigFileName)
 
         'Run setup
         LogAppend("Running setup")
