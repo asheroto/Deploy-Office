@@ -123,6 +123,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Configurations\ConfigurationWordExcelPowerPointOutlookOnly.xml" />
+    <Content Include="Configurations\ConfigurationPowerPointOnly.xml" />
+    <Content Include="Configurations\ConfigurationAll.xml" />
+    <Content Include="Configurations\ConfigurationAllPlusVisio.xml" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

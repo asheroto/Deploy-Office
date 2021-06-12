@@ -6,7 +6,10 @@ Public Class Main
     Public Const SetupFileName As String = "setup.exe"
     Public Const ConfigFileName As String = "configuration.xml"
     Public Const SetupURL As String = "https://github.com/asheroto/Deploy-Office-2019/raw/master/setup.exe"
-    Public Const ConfigURL As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/configuration.xml"
+    Public Const ConfigURL_AllPlusVisio As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationAllPlusVisio.xml"
+    Public Const ConfigURL_All As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationAll.xml"
+    Public Const ConfigURL_PowerPointOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationPowerPointOnly.xml"
+    Public Const ConfigURL_WordExcelPowerPointOutlookOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationWordExcelPowerPointOutlookOnly.xml"
     Public TempPath As String = Path.GetTempPath
 
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -38,6 +41,17 @@ Public Class Main
 
         'Download configuration.xml
         LogAppend("Downloading configuration.xml")
+        Dim ConfigURL As String = Nothing
+        Select Case EditionSelector.SelectedItem.ToString
+            Case "All & Visio"
+                ConfigURL = ConfigURL_AllPlusVisio
+            Case "All"
+                ConfigURL = ConfigURL_All
+            Case "PowerPoint Only"
+                ConfigURL = ConfigURL_PowerPointOnly
+            Case "Word, Excel, PowerPoint, Outlook Only"
+                ConfigURL = ConfigURL_WordExcelPowerPointOutlookOnly
+        End Select
         Download(ConfigURL, ConfigFileName)
 
         'Run setup
@@ -58,12 +72,7 @@ Public Class Main
 
         'Closing window
         LogAppend("Closing this window in 1 minute")
-        Dim c As New Stopwatch
-        c.Start()
-        Do Until c.Elapsed.Minutes >= 1
-            Application.DoEvents()
-        Loop
-        c.Stop()
+        CloseWindowAfterOneMinute()
         End
 
     End Sub

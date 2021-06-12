@@ -28,6 +28,7 @@ Partial Class Main
         Me.MainLabel = New System.Windows.Forms.Label()
         Me.CountdownLabel = New System.Windows.Forms.Label()
         Me.LogTextbox = New System.Windows.Forms.TextBox()
+        Me.EditionSelector = New System.Windows.Forms.ComboBox()
         Me.SuspendLayout()
         '
         'CountdownTimer
@@ -66,12 +67,23 @@ Partial Class Main
         Me.LogTextbox.Size = New System.Drawing.Size(515, 337)
         Me.LogTextbox.TabIndex = 2
         '
+        'EditionSelector
+        '
+        Me.EditionSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.EditionSelector.FormattingEnabled = True
+        Me.EditionSelector.Items.AddRange(New Object() {"All & Visio", "All", "PowerPoint Only", "Word, Excel, PowerPoint, Outlook Only"})
+        Me.EditionSelector.Location = New System.Drawing.Point(354, 63)
+        Me.EditionSelector.Name = "EditionSelector"
+        Me.EditionSelector.Size = New System.Drawing.Size(173, 25)
+        Me.EditionSelector.TabIndex = 3
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(539, 461)
+        Me.Controls.Add(Me.EditionSelector)
         Me.Controls.Add(Me.LogTextbox)
         Me.Controls.Add(Me.CountdownLabel)
         Me.Controls.Add(Me.MainLabel)
@@ -92,4 +104,5 @@ Partial Class Main
     Friend WithEvents MainLabel As Label
     Friend WithEvents CountdownLabel As Label
     Friend WithEvents LogTextbox As TextBox
+    Friend WithEvents EditionSelector As ComboBox
 End Class

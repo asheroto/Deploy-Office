@@ -1,0 +1,20 @@
+﻿<Configuration>
+  <Add OfficeClientEdition="64" Channel="PerpetualVL2019" AllowCdnFallback="True" OfficeMgmtCOM="False">
+    <Product ID="ProPlus2019Volume">
+      <Language ID="en-us" />
+      <ExcludeApp ID="Access" />
+      <ExcludeApp ID="Excel" />
+      <ExcludeApp ID="Groove" />
+      <ExcludeApp ID="Lync" />
+      <ExcludeApp ID="OneDrive" />
+      <ExcludeApp ID="OneNote" />
+      <ExcludeApp ID="Outlook" />
+      <ExcludeApp ID="Publisher" />
+      <ExcludeApp ID="Word" />
+    </Product>
+  </Add>
+  <Display AcceptEULA="True" />
+  <Property Name="PinIconsToTaskbar" Value="False" />
+  <Property Name="FORCEAPPSHUTDOWN" Value="True" />
+  <Property Name="AUTOACTIVATE" Value="False" />
+</Configuration>

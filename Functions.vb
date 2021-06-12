@@ -116,6 +116,15 @@ Module Functions
         End Try
     End Sub
 
+    Sub CloseWindowAfterOneMinute()
+        Dim c As New Stopwatch
+        c.Start()
+        Do Until c.Elapsed.Minutes >= 1
+            Application.DoEvents()
+        Loop
+        c.Stop()
+    End Sub
+
     Sub LogAppend(text As String)
         Main.LogTextbox.AppendText(text & "..." & vbNewLine)
     End Sub
