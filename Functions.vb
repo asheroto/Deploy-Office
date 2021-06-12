@@ -91,7 +91,9 @@ Module Functions
         OfficeApps.Add("C:\Program Files\Microsoft Office\root\Office16\VISIO.EXE", "Visio")
 
         For Each exe As KeyValuePair(Of String, String) In OfficeApps
-            CreateShortcut(exe.Key, Environment.GetFolderPath(Environment.SpecialFolder.Desktop), exe.Value)
+            If File.Exists(exe.Key) Then
+                CreateShortcut(exe.Key, Environment.GetFolderPath(Environment.SpecialFolder.Desktop), exe.Value)
+            End If
         Next
     End Sub
 
