@@ -32,6 +32,7 @@ Public Class Main
 
         If CountdownLabel.Text = 0 Then
             CountdownTimer.Enabled = False
+            EditionSelector.Enabled = False
             GoRun()
         End If
     End Sub
@@ -44,7 +45,7 @@ Public Class Main
 
         'Download setup.exe
         LogAppend("Downloading setup.exe")
-        Download(SetupURL, SetupFileName)
+        If Download(SetupURL, SetupFileName) = False Then End
 
         'Download configuration.xml
         LogAppend("Downloading configuration.xml")
@@ -67,7 +68,7 @@ Public Class Main
             Case "Word, Excel, PowerPoint, Outlook Only"
                 ConfigURL = ConfigURL_WordExcelPowerPointOutlookOnly
         End Select
-        Download(ConfigURL, ConfigFileName)
+        If Download(ConfigURL, ConfigFileName) = False Then End
 
         'Run setup
         LogAppend("Running setup")

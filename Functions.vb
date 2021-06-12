@@ -25,7 +25,7 @@ Module Functions
         End Try
     End Function
 
-    Sub Download(URL As String, FileName As String)
+    Function Download(URL As String, FileName As String)
         Dim DownloadPath As String = Path.Combine(Main.TempPath, FileName)
 
         If File.Exists(DownloadPath) Then
@@ -51,15 +51,17 @@ Module Functions
             taskA.Start()
             taskA.Wait()
             If taskA.IsFaulted Then Throw New Exception
+            Return True
         Catch ex As Exception
             MsgBox(String.Format("Failed to download {0}. Please ensure you have Internet connectivity or restart your computer and try again." & vbNewLine & vbNewLine & ex.Message, FileName), vbExclamation, Main.ApplicationName)
-            End
+            Return False
         End Try
 
         If File.Exists(DownloadPath) = False Then
             MsgBox(String.Format("Problem downloading {0}. Please ensure you have Internet connectivity or restart your computer and try again.", FileName), vbExclamation, Main.ApplicationName)
+            Return False
         End If
-    End Sub
+    End Function
 
     Sub RunSetup()
         'Run setup
