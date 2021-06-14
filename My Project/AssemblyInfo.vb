@@ -8,7 +8,7 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("Deploy-Office-2019")>
-<Assembly: AssemblyDescription("")>
+<Assembly: AssemblyDescription("Deploys Office 2019.")>
 <Assembly: AssemblyCompany("")>
 <Assembly: AssemblyProduct("Deploy-Office-2019")>
 <Assembly: AssemblyCopyright("")>
@@ -30,5 +30,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("0.0.2.0")>
-<Assembly: AssemblyFileVersion("0.0.2.0")>
+<Assembly: AssemblyVersion("0.0.3.0")>
+<Assembly: AssemblyFileVersion("0.0.3.0")>
