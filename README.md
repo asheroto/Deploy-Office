@@ -2,7 +2,7 @@
 
 # Deploy Office 2019
 
-Easily install Office 2019. Simply open the program and it will start installing Office 2019.
+Easily install Office 2019. Simply open the program and it will start installing.
 
 Everything is downloaded from the cloud, so you'll always have the latest version available when installing.
 
@@ -16,9 +16,8 @@ Desktop shortcuts will be created for the installed Office application(s).
 - OneNote
 - Publisher
 - Access
-- Visio
 
-Alternatively you can select which specific program you want installed.
+Alternatively you can select which edition you want installed.
 
 ## Screenshot
 ![Screenshot](https://i.imgur.com/Ww5b3LB.png)
