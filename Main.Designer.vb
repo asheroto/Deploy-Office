@@ -73,9 +73,9 @@ Partial Class Main
         Me.EditionSelector.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.EditionSelector.FormattingEnabled = True
         Me.EditionSelector.Items.AddRange(New Object() {"Home & Business", "Home & Student", "Personal", "Professional", "Professional Plus", "Professional Plus - Volume", "Standard", "Standard - Volume", "Visio Standard", "Visio Standard - Volume", "Visio Professional", "Visio Professional - Volume"})
-        Me.EditionSelector.Location = New System.Drawing.Point(319, 63)
+        Me.EditionSelector.Location = New System.Drawing.Point(337, 63)
         Me.EditionSelector.Name = "EditionSelector"
-        Me.EditionSelector.Size = New System.Drawing.Size(208, 23)
+        Me.EditionSelector.Size = New System.Drawing.Size(190, 23)
         Me.EditionSelector.TabIndex = 3
         '
         'Main
