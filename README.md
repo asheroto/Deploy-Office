@@ -45,7 +45,7 @@ Desktop shortcuts will be created for the installed Office application(s).
 ## Set the default edition/product to install at runtime
 - Create a file named `Deploy-Office-2019.txt` in the same folder as `Deploy-Office-2019.exe`
 - Type the position number of the edition in the drop-down, starting from `0`, and save it
-- For example, to select `Professional` by default, type `3` and save it
+- For example, to select `Home & Business` by default, type `4` and save it
 
 ## Screenshot
 ![Screenshot](https://github.com/asheroto/Deploy-Office-2019/blob/master/screenshot.png?raw=true)
