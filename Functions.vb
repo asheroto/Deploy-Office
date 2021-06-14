@@ -25,33 +25,6 @@ Module Functions
         End Try
     End Function
 
-    Sub Download(URL As String, FileName As String)
-        Dim DownloadPath As String = Path.Combine(Main.TempPath, FileName)
-
-        If File.Exists(DownloadPath) Then
-            Try
-                File.Delete(DownloadPath)
-            Catch ex As Exception
-                MsgBox(String.Format("Failed to delete existing {0}. Please end all setup.exe processes or restart your computer and try again." & vbNewLine & vbNewLine & ex.Message, FileName), vbExclamation, Main.ApplicationName)
-                End
-            End Try
-
-        End If
-
-        Try
-            Dim wc As WebClient = New WebClient()
-            wc.DownloadFile(URL, DownloadPath)
-        Catch ex As Exception
-            MsgBox(String.Format("Failed to download {0}. Please ensure you have Internet connectivity or restart your computer and try again." & vbNewLine & vbNewLine & ex.Message, FileName), vbExclamation, Main.ApplicationName)
-            End
-        End Try
-
-        If File.Exists(DownloadPath) = False Then
-            MsgBox(String.Format("Problem downloading {0}. Please ensure you have Internet connectivity or restart your computer and try again.", FileName), vbExclamation, Main.ApplicationName)
-            End
-        End If
-    End Sub
-
     Sub RunSetup()
         'Run setup
         Dim SetupPath As String = Path.Combine(Main.TempPath, Main.SetupFileName)
@@ -91,6 +64,7 @@ Module Functions
     Sub Cleanup()
         Dim SetupPath As String = Path.Combine(Main.TempPath, Main.SetupFileName)
         Dim ConfigPath As String = Path.Combine(Main.TempPath, Main.ConfigFileName)
+        Dim AssetsPath As String = Path.Combine(Main.TempPath, "Assets.zip")
 
         Try
             If File.Exists(SetupPath) Then
@@ -103,6 +77,14 @@ Module Functions
         Try
             If File.Exists(ConfigPath) Then
                 File.Delete(ConfigPath)
+            End If
+        Catch ex As Exception
+
+        End Try
+
+        Try
+            If Directory.Exists(AssetsPath) Then
+                Directory.Delete(AssetsPath, True)
             End If
         Catch ex As Exception
 

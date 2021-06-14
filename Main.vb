@@ -1,19 +1,13 @@
 ﻿Imports System.IO
+Imports System.IO.Compression
 
 Public Class Main
     Public ApplicationName = "Deploy Office 2019"
 
-    Public Const SetupFileName As String = "setup.exe"
-    Public Const ConfigFileName As String = "configuration.xml"
-    Public Const SetupURL As String = "https://github.com/asheroto/Deploy-Office-2019/raw/master/setup.exe"
-    Public Const ConfigURL_VisioOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationVisioOnly.xml"
-    Public Const ConfigURL_ProfessionalPlusVisio As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationAllPlusVisio.xml"
-    Public Const ConfigURL_ProfessionalPlus As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationAll.xml"
-    Public Const ConfigURL_WordOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationWordOnly.xml"
-    Public Const ConfigURL_ExcelOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationExcelOnly.xml"
-    Public Const ConfigURL_OutlookdOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationOutlookOnly.xml"
-    Public Const ConfigURL_PowerPointOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationPowerPointOnly.xml"
-    Public Const ConfigURL_WordExcelPowerPointOutlookOnly As String = "https://raw.githubusercontent.com/asheroto/Deploy-Office-2019/master/Configurations/ConfigurationWordExcelPowerPointOutlookOnly.xml"
+    Public Const AssetsFilename As String = "assets.zip"
+    Public Const SetupFilename As String = "setup.exe"
+    Public Const ConfigFilename As String = "configuration.xml"
+    Public ProductID As New Dictionary(Of String, String)
     Public TempPath As String = Path.GetTempPath
 
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -21,7 +15,23 @@ Public Class Main
         Me.Height = 145
 
         'Default selection
-        EditionSelector.SelectedIndex = 0
+        EditionSelector.SelectedItem = "Professional Plus - Volume"
+
+        'Configure product ID dictionary
+        With ProductID
+            .Add("Home & Business", "HomeBusiness2019Retail")
+            .Add("Home & Student", "HomeStudent2019Retail")
+            .Add("Personal", "Personal2019Retail")
+            .Add("Professional", "Professional2019Retail")
+            .Add("Professional Plus", "ProPlus2019Retail")
+            .Add("Professional Plus - Volume", "ProPlus2019Volume")
+            .Add("Standard", "Standard2019Retail")
+            .Add("Standard - Volume", "Standard2019Volume")
+            .Add("Visio Standard", "VisioStd2019Retail")
+            .Add("Visio Standard - Volume", "VisioStd2019Volume")
+            .Add("Visio Professional", "VisioPro2019Retail")
+            .Add("Visio Professional - Volume", "VisioPro2019Volume")
+        End With
 
         'Fix TLS 1.2 not enabled
         TLSchannelFix()
@@ -43,32 +53,24 @@ Public Class Main
         Me.Height = 500
         Application.DoEvents()
 
-        'Download setup.exe
-        LogAppend("Downloading setup.exe")
-        Download(SetupURL, SetupFileName)
+        'Prepare folder
+        LogAppend("Preparing")
+        Cleanup()
 
-        'Download configuration.xml
-        LogAppend("Downloading configuration.xml")
-        Dim ConfigURL As String = Nothing
-        Select Case EditionSelector.SelectedItem.ToString
-            Case "Professional Plus + Visio"
-                ConfigURL = ConfigURL_ProfessionalPlusVisio
-            Case "Professional Plus"
-                ConfigURL = ConfigURL_ProfessionalPlus
-            Case "Word Only"
-                ConfigURL = ConfigURL_WordOnly
-            Case "Excel Only"
-                ConfigURL = ConfigURL_ExcelOnly
-            Case "Outlook Only"
-                ConfigURL = ConfigURL_OutlookdOnly
-            Case "Visio Only"
-                ConfigURL = ConfigURL_VisioOnly
-            Case "PowerPoint Only"
-                ConfigURL = ConfigURL_PowerPointOnly
-            Case "Word, Excel, PowerPoint, Outlook Only"
-                ConfigURL = ConfigURL_WordExcelPowerPointOutlookOnly
-        End Select
-        Download(ConfigURL, ConfigFileName)
+        'Extract assets
+        LogAppend("Extracting assets")
+        Dim AssetsPath As String = Path.Combine(TempPath, AssetsFilename)
+        File.WriteAllBytes(AssetsPath, My.Resources.Assets)
+        ZipFile.ExtractToDirectory(AssetsPath, TempPath)
+
+        'Write configuration.xml
+        LogAppend("Writing configuration.xml")
+        Dim ConfigPath As String = Path.Combine(TempPath, ConfigFilename)
+        Dim Configuration As String = File.ReadAllText(ConfigPath)
+        Dim ProductIDValue As String = Nothing
+        ProductID.TryGetValue(EditionSelector.Text, ProductIDValue)
+        Configuration = Configuration.Replace("{PRODUCTID}", ProductIDValue)
+        File.WriteAllText(ConfigPath, Configuration)
 
         'Run setup
         LogAppend("Running setup")
@@ -89,6 +91,8 @@ Public Class Main
         'Closing window
         LogAppend("Closing this window in 1 minute")
         CloseWindowAfterOneMinute()
+
+        'End
         End
 
     End Sub
