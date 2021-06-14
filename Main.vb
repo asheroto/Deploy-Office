@@ -16,6 +16,10 @@ Public Class Main
 
         'Configure product ID dictionary
         With ProductID
+            .Add("Microsoft 365 Family/Personal", "O365HomePremRetail")
+            .Add("Microsoft 365 Small Business", "O365SmallBusPremRetail")
+            .Add("Microsoft 365 Education", "O365EduCloudRetail")
+            .Add("Microsoft 365 Enterprise", "O365ProPlusRetail")
             .Add("Home & Business", "HomeBusiness2019Retail")
             .Add("Home & Student", "HomeStudent2019Retail")
             .Add("Personal", "Personal2019Retail")
@@ -29,6 +33,11 @@ Public Class Main
             .Add("Visio Professional", "VisioPro2019Retail")
             .Add("Visio Professional - Volume", "VisioPro2019Volume")
         End With
+
+        'Configure drop-down
+        For Each item In ProductID
+            EditionSelector.Items.Add(item.Key)
+        Next
 
         'Default edition selection
         Try
