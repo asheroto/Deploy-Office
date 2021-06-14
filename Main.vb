@@ -32,6 +32,22 @@ Public Class Main
             .Add("Visio Standard - Volume", "VisioStd2019Volume")
             .Add("Visio Professional", "VisioPro2019Retail")
             .Add("Visio Professional - Volume", "VisioPro2019Volume")
+            .Add("Project Standard", "ProjectStd2019Retail")
+            .Add("Project Standard - Volume", "ProjectStd2019Volume")
+            .Add("Project Professional", "ProjectPro2019Retail")
+            .Add("Project Professional - Volume", "ProjectPro2019Volume")
+            .Add("Access", "Access2019Retail")
+            .Add("Access - Volume", "Access2019Volume")
+            .Add("Excel", "Excel2019Retail")
+            .Add("Excel - Volume", "Excel2019Volume")
+            .Add("Outlook", "Outlook2019Retail")
+            .Add("Outlook - Volume", "Outlook2019Volume")
+            .Add("PowerPoint", "PowerPoint2019Retail")
+            .Add("PowerPoint - Volume", "PowerPoint2019Volume")
+            .Add("Publisher", "Publisher2019Retail")
+            .Add("Publisher - Volume", "Publisher2019Volume")
+            .Add("Word", "Word2019Retail")
+            .Add("Word - Volume", "Word2019Volume")
         End With
 
         'Configure drop-down

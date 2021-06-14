@@ -8,18 +8,41 @@ Everything is downloaded from the cloud, so you'll always have the latest versio
 
 Desktop shortcuts will be created for the installed Office application(s).
 
-**Office applications installed in Professional Plus:**
-- Word
-- Excel
-- PowerPoint
-- Outlook
-- OneNote
-- Publisher
+### Editions/Products Supported
+- Microsoft 365 Family/Personal
+- Microsoft 365 Small Business
+- Microsoft 365 Education
+- Microsoft 365 Enterprise
+- Home & Business
+- Home & Student
+- Personal
+- Professional
+- Professional Plus
+- Professional Plus - Volume
+- Standard
+- Standard - Volume
+- Visio Standard
+- Visio Standard - Volume
+- Visio Professional
+- Visio Professional - Volume
+- Project Standard
+- Project Standard - Volume
+- Project Professional
+- Project Professional - Volume
 - Access
+- Access - Volume
+- Excel
+- Excel - Volume
+- Outlook
+- Outlook - Volume
+- PowerPoint
+- PowerPoint - Volume
+- Publisher
+- Publisher - Volume
+- Word
+- Word - Volume
 
-Alternatively you can select which edition you want installed.
-
-**To change the default edition to install at runtime:**
+## Set the default edition/product to install at runtime
 - Create a file named `Deploy-Office-2019.txt` in the same folder as `Deploy-Office-2019.exe`
 - Type the position number of the edition in the drop-down, starting from `0`, and save it
 - For example, to select `Professional` by default, type `3` and save it
