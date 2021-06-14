@@ -64,34 +64,24 @@ Module Functions
     Sub Cleanup()
         Dim SetupPath As String = Path.Combine(Main.TempPath, Main.SetupFileName)
         Dim ConfigPath As String = Path.Combine(Main.TempPath, Main.ConfigFileName)
-        Dim AssetsPath As String = Path.Combine(Main.TempPath, "Assets.zip")
+        Dim AssetsPath As String = Path.Combine(Main.TempPath, Main.AssetsFilename)
 
+        DeleteFileIfExist(SetupPath)
+        DeleteFileIfExist(ConfigPath)
+        DeleteFileIfExist(AssetsPath)
+    End Sub
+
+    Sub DeleteFileIfExist(path As String)
         Try
-            If File.Exists(SetupPath) Then
-                File.Delete(SetupPath)
-            End If
-        Catch ex As Exception
-
-        End Try
-
-        Try
-            If File.Exists(ConfigPath) Then
-                File.Delete(ConfigPath)
-            End If
-        Catch ex As Exception
-
-        End Try
-
-        Try
-            If Directory.Exists(AssetsPath) Then
-                Directory.Delete(AssetsPath, True)
+            If File.Exists(path) Then
+                File.Delete(path)
             End If
         Catch ex As Exception
 
         End Try
     End Sub
 
-    Sub CloseWindowAfterOneMinute()
+    Sub WaitOneMinute()
         Dim c As New Stopwatch
         c.Start()
         Do Until c.Elapsed.Minutes >= 1

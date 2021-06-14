@@ -4,7 +4,7 @@ Imports System.IO.Compression
 Public Class Main
     Public ApplicationName = "Deploy Office 2019"
 
-    Public Const AssetsFilename As String = "assets.zip"
+    Public Const AssetsFilename As String = "Assets.zip"
     Public Const SetupFilename As String = "setup.exe"
     Public Const ConfigFilename As String = "configuration.xml"
     Public ProductID As New Dictionary(Of String, String)
@@ -66,53 +66,56 @@ Public Class Main
     End Sub
 
     Sub GoRun()
-        'Adjust form
-        CountdownLabel.Text = "Running..."
-        Me.Height = 500
-        Application.DoEvents()
+        Try
+            'Adjust form
+            CountdownLabel.Text = "Running..."
+            Me.Height = 500
+            Application.DoEvents()
 
-        'Prepare folder
-        LogAppend("Preparing")
-        Cleanup()
+            'Prepare folder
+            LogAppend("Preparing")
+            Cleanup()
 
-        'Extract assets
-        LogAppend("Extracting assets")
-        Dim AssetsPath As String = Path.Combine(TempPath, AssetsFilename)
-        File.WriteAllBytes(AssetsPath, My.Resources.Assets)
-        ZipFile.ExtractToDirectory(AssetsPath, TempPath)
+            'Extract assets
+            LogAppend("Extracting assets")
+            Dim AssetsPath As String = Path.Combine(TempPath, AssetsFilename)
+            File.WriteAllBytes(AssetsPath, My.Resources.Assets)
+            ZipFile.ExtractToDirectory(AssetsPath, TempPath)
 
-        'Write configuration.xml
-        LogAppend("Writing configuration.xml")
-        Dim ConfigPath As String = Path.Combine(TempPath, ConfigFilename)
-        Dim Configuration As String = File.ReadAllText(ConfigPath)
-        Dim ProductIDValue As String = Nothing
-        ProductID.TryGetValue(EditionSelector.Text, ProductIDValue)
-        Configuration = Configuration.Replace("{PRODUCTID}", ProductIDValue)
-        File.WriteAllText(ConfigPath, Configuration)
+            'Write configuration.xml
+            LogAppend("Writing configuration.xml")
+            Dim ConfigPath As String = Path.Combine(TempPath, ConfigFilename)
+            Dim Configuration As String = File.ReadAllText(ConfigPath)
+            Dim ProductIDValue As String = Nothing
+            ProductID.TryGetValue(EditionSelector.Text, ProductIDValue)
+            Configuration = Configuration.Replace("{PRODUCTID}", ProductIDValue)
+            File.WriteAllText(ConfigPath, Configuration)
 
-        'Run setup
-        LogAppend("Running setup")
-        RunSetup()
+            'Run setup
+            LogAppend("Running setup")
+            RunSetup()
 
-        'Create desktop shortcuts
-        LogAppend("Creating desktop shortcuts")
-        CreateDesktopShortcuts()
+            'Create desktop shortcuts
+            LogAppend("Creating desktop shortcuts")
+            CreateDesktopShortcuts()
 
-        'Cleanup
-        LogAppend("Cleaning up")
-        Cleanup()
+            'Cleanup
+            LogAppend("Cleaning up")
+            Cleanup()
 
-        'Finished
-        LogAppend("Finished")
-        CountdownLabel.Text = "Finished"
+            'Finished
+            LogAppend("Finished")
+            CountdownLabel.Text = "Finished"
 
-        'Closing window
-        LogAppend("Closing this window in 1 minute")
-        CloseWindowAfterOneMinute()
+            'Closing window
+            LogAppend("Closing this window in 1 minute")
+            WaitOneMinute()
+        Catch ex As Exception
+
+        End Try
 
         'End
         End
-
     End Sub
 
     Private Sub EditionSelector_SelectedIndexChanged(sender As Object, e As EventArgs) Handles EditionSelector.SelectedIndexChanged
