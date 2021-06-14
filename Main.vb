@@ -14,9 +14,6 @@ Public Class Main
         'Adjust height
         Me.Height = 145
 
-        'Default selection
-        EditionSelector.SelectedItem = "Professional Plus - Volume"
-
         'Configure product ID dictionary
         With ProductID
             .Add("Home & Business", "HomeBusiness2019Retail")
@@ -32,6 +29,27 @@ Public Class Main
             .Add("Visio Professional", "VisioPro2019Retail")
             .Add("Visio Professional - Volume", "VisioPro2019Volume")
         End With
+
+        'Default edition selection
+        Try
+            EditionSelector.SelectedItem = "Professional Plus - Volume"
+        Catch ex As Exception
+
+        End Try
+
+        'Deploy config edition selection
+        Dim DeployConfigPath As String = Path.Combine(Application.StartupPath, "Deploy-Office-2019.txt")
+        Dim DeployConfig() As String = Nothing
+        If File.Exists(DeployConfigPath) Then
+            Try
+                DeployConfig = File.ReadAllLines(DeployConfigPath)
+                If DeployConfig(0) <= ProductID.Count - 1 Then
+                    EditionSelector.SelectedIndex = DeployConfig(0)
+                End If
+            Catch ex As Exception
+
+            End Try
+        End If
 
         'Fix TLS 1.2 not enabled
         TLSchannelFix()
@@ -99,7 +117,7 @@ Public Class Main
 
     Private Sub EditionSelector_SelectedIndexChanged(sender As Object, e As EventArgs) Handles EditionSelector.SelectedIndexChanged
         CountdownTimer.Enabled = False
-        CountdownLabel.Text = 10
+        CountdownLabel.Text = 15
         CountdownTimer.Enabled = True
     End Sub
 
