@@ -20,7 +20,7 @@ Desktop shortcuts will be created for the installed Office application(s).
 Alternatively you can select which edition you want installed.
 
 ## Screenshot
-![Screenshot](https://i.imgur.com/Ww5b3LB.png)
+![Screenshot](https://github.com/asheroto/Deploy-Office-2019/blob/master/screenshot.png?raw=true)
 
 ## Download
 
