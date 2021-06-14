@@ -115,8 +115,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets.zip" />
-    <None Include="data.zip" />
     <None Include="LICENSE" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
