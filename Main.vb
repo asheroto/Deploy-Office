@@ -113,6 +113,11 @@ Public Class Main
             Dim Configuration As String = File.ReadAllText(ConfigPath)
             Dim ProductIDValue As String = Nothing
             ProductID.TryGetValue(EditionSelector.Text, ProductIDValue)
+            If EditionSelector.Text.Contains("Volume") Then
+                Configuration = Configuration.Replace("{CHANNEL}", "PerpetualVL2019")
+            Else
+                Configuration = Configuration.Replace("{CHANNEL}", "Current")
+            End If
             Configuration = Configuration.Replace("{PRODUCTID}", ProductIDValue)
             File.WriteAllText(ConfigPath, Configuration)
 

@@ -1,5 +1,5 @@
 ﻿<Configuration>
-  <Add OfficeClientEdition="64" Channel="PerpetualVL2019" AllowCdnFallback="True" OfficeMgmtCOM="False">
+  <Add OfficeClientEdition="64" Channel="{CHANNEL}" AllowCdnFallback="True" OfficeMgmtCOM="False">
     <Product ID="{PRODUCTID}">
       <Language ID="en-us" />
     </Product>
