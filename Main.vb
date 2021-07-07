@@ -104,19 +104,19 @@ Public Class Main
     Sub Start()
         Button_Start.Visible = False
         CountdownTimer.Enabled = False
-        EditionSelector.Enabled = False
-        RadioButton1.Enabled = False
-        RadioButton2.Enabled = False
+        EditionSelector.Visible = False
+        RadioButton1.Visible = False
+        RadioButton2.Visible = False
+        CountdownLabel.Width = 515
+        CountdownLabel.Left = 12
+        CountdownLabel.Text = "Running..."
+        Me.Height = 500
+        Application.DoEvents()
         GoRun()
     End Sub
 
     Sub GoRun()
         Try
-            'Adjust form
-            CountdownLabel.Text = "Running..."
-            Me.Height = 500
-            Application.DoEvents()
-
             'Prepare folder
             LogAppend("Preparing")
             Cleanup()
