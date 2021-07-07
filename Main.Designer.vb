@@ -29,6 +29,9 @@ Partial Class Main
         Me.CountdownLabel = New System.Windows.Forms.Label()
         Me.LogTextbox = New System.Windows.Forms.TextBox()
         Me.EditionSelector = New System.Windows.Forms.ComboBox()
+        Me.RadioButton1 = New System.Windows.Forms.RadioButton()
+        Me.RadioButton2 = New System.Windows.Forms.RadioButton()
+        Me.Button_Start = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'CountdownTimer
@@ -55,7 +58,7 @@ Partial Class Main
         Me.CountdownLabel.Name = "CountdownLabel"
         Me.CountdownLabel.Size = New System.Drawing.Size(515, 31)
         Me.CountdownLabel.TabIndex = 1
-        Me.CountdownLabel.Text = "10"
+        Me.CountdownLabel.Text = "30"
         Me.CountdownLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'LogTextbox
@@ -72,10 +75,41 @@ Partial Class Main
         Me.EditionSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.EditionSelector.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.EditionSelector.FormattingEnabled = True
-        Me.EditionSelector.Location = New System.Drawing.Point(337, 63)
+        Me.EditionSelector.Location = New System.Drawing.Point(337, 65)
         Me.EditionSelector.Name = "EditionSelector"
         Me.EditionSelector.Size = New System.Drawing.Size(190, 23)
         Me.EditionSelector.TabIndex = 3
+        '
+        'RadioButton1
+        '
+        Me.RadioButton1.AutoSize = True
+        Me.RadioButton1.Checked = True
+        Me.RadioButton1.Location = New System.Drawing.Point(12, 67)
+        Me.RadioButton1.Name = "RadioButton1"
+        Me.RadioButton1.Size = New System.Drawing.Size(54, 21)
+        Me.RadioButton1.TabIndex = 4
+        Me.RadioButton1.TabStop = True
+        Me.RadioButton1.Text = "2019"
+        Me.RadioButton1.UseVisualStyleBackColor = True
+        '
+        'RadioButton2
+        '
+        Me.RadioButton2.AutoSize = True
+        Me.RadioButton2.Location = New System.Drawing.Point(72, 67)
+        Me.RadioButton2.Name = "RadioButton2"
+        Me.RadioButton2.Size = New System.Drawing.Size(54, 21)
+        Me.RadioButton2.TabIndex = 5
+        Me.RadioButton2.Text = "2021"
+        Me.RadioButton2.UseVisualStyleBackColor = True
+        '
+        'Button_Start
+        '
+        Me.Button_Start.Location = New System.Drawing.Point(150, 65)
+        Me.Button_Start.Name = "Button_Start"
+        Me.Button_Start.Size = New System.Drawing.Size(75, 23)
+        Me.Button_Start.TabIndex = 6
+        Me.Button_Start.Text = "Start"
+        Me.Button_Start.UseVisualStyleBackColor = True
         '
         'Main
         '
@@ -83,6 +117,9 @@ Partial Class Main
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(539, 461)
+        Me.Controls.Add(Me.Button_Start)
+        Me.Controls.Add(Me.RadioButton2)
+        Me.Controls.Add(Me.RadioButton1)
         Me.Controls.Add(Me.EditionSelector)
         Me.Controls.Add(Me.LogTextbox)
         Me.Controls.Add(Me.CountdownLabel)
@@ -94,7 +131,7 @@ Partial Class Main
         Me.MaximizeBox = False
         Me.Name = "Main"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Deploy Office 2019"
+        Me.Text = "Deploy Office"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -105,4 +142,7 @@ Partial Class Main
     Friend WithEvents CountdownLabel As Label
     Friend WithEvents LogTextbox As TextBox
     Friend WithEvents EditionSelector As ComboBox
+    Friend WithEvents RadioButton1 As RadioButton
+    Friend WithEvents RadioButton2 As RadioButton
+    Friend WithEvents Button_Start As Button
 End Class

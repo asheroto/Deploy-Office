@@ -2,7 +2,7 @@
 Imports System.IO.Compression
 
 Public Class Main
-    Public ApplicationName = "Deploy Office 2019"
+    Public ApplicationName = "Deploy Office"
 
     Public Const AssetsFilename As String = "Assets.zip"
     Public Const SetupFilename As String = "setup.exe"
@@ -20,34 +20,34 @@ Public Class Main
             .Add("Microsoft 365 Small Business", "O365SmallBusPremRetail")
             .Add("Microsoft 365 Education", "O365EduCloudRetail")
             .Add("Microsoft 365 Enterprise", "O365ProPlusRetail")
-            .Add("Home & Business", "HomeBusiness2019Retail")
-            .Add("Home & Student", "HomeStudent2019Retail")
-            .Add("Personal", "Personal2019Retail")
-            .Add("Professional", "Professional2019Retail")
-            .Add("Professional Plus", "ProPlus2019Retail")
-            .Add("Professional Plus - Volume", "ProPlus2019Volume")
-            .Add("Standard", "Standard2019Retail")
-            .Add("Standard - Volume", "Standard2019Volume")
-            .Add("Visio Standard", "VisioStd2019Retail")
-            .Add("Visio Standard - Volume", "VisioStd2019Volume")
-            .Add("Visio Professional", "VisioPro2019Retail")
-            .Add("Visio Professional - Volume", "VisioPro2019Volume")
-            .Add("Project Standard", "ProjectStd2019Retail")
-            .Add("Project Standard - Volume", "ProjectStd2019Volume")
-            .Add("Project Professional", "ProjectPro2019Retail")
-            .Add("Project Professional - Volume", "ProjectPro2019Volume")
-            .Add("Access", "Access2019Retail")
-            .Add("Access - Volume", "Access2019Volume")
-            .Add("Excel", "Excel2019Retail")
-            .Add("Excel - Volume", "Excel2019Volume")
-            .Add("Outlook", "Outlook2019Retail")
-            .Add("Outlook - Volume", "Outlook2019Volume")
-            .Add("PowerPoint", "PowerPoint2019Retail")
-            .Add("PowerPoint - Volume", "PowerPoint2019Volume")
-            .Add("Publisher", "Publisher2019Retail")
-            .Add("Publisher - Volume", "Publisher2019Volume")
-            .Add("Word", "Word2019Retail")
-            .Add("Word - Volume", "Word2019Volume")
+            .Add("Home & Business", "HomeBusiness{YYYY}Retail")
+            .Add("Home & Student", "HomeStudent{YYYY}Retail")
+            .Add("Personal", "Personal{YYYY}Retail")
+            .Add("Professional", "Professional{YYYY}Retail")
+            .Add("Professional Plus", "ProPlus{YYYY}Retail")
+            .Add("Professional Plus - Volume", "ProPlus{YYYY}Volume")
+            .Add("Standard", "Standard{YYYY}Retail")
+            .Add("Standard - Volume", "Standard{YYYY}Volume")
+            .Add("Visio Standard", "VisioStd{YYYY}Retail")
+            .Add("Visio Standard - Volume", "VisioStd{YYYY}Volume")
+            .Add("Visio Professional", "VisioPro{YYYY}Retail")
+            .Add("Visio Professional - Volume", "VisioPro{YYYY}Volume")
+            .Add("Project Standard", "ProjectStd{YYYY}Retail")
+            .Add("Project Standard - Volume", "ProjectStd{YYYY}Volume")
+            .Add("Project Professional", "ProjectPro{YYYY}Retail")
+            .Add("Project Professional - Volume", "ProjectPro{YYYY}Volume")
+            .Add("Access", "Access{YYYY}Retail")
+            .Add("Access - Volume", "Access{YYYY}Volume")
+            .Add("Excel", "Excel{YYYY}Retail")
+            .Add("Excel - Volume", "Excel{YYYY}Volume")
+            .Add("Outlook", "Outlook{YYYY}Retail")
+            .Add("Outlook - Volume", "Outlook{YYYY}Volume")
+            .Add("PowerPoint", "PowerPoint{YYYY}Retail")
+            .Add("PowerPoint - Volume", "PowerPoint{YYYY}Volume")
+            .Add("Publisher", "Publisher{YYYY}Retail")
+            .Add("Publisher - Volume", "Publisher{YYYY}Volume")
+            .Add("Word", "Word{YYYY}Retail")
+            .Add("Word - Volume", "Word{YYYY}Volume")
         End With
 
         'Configure drop-down
@@ -63,13 +63,27 @@ Public Class Main
         End Try
 
         'Deploy config edition selection
-        Dim DeployConfigPath As String = Path.Combine(Application.StartupPath, "Deploy-Office-2019.txt")
+        Dim DeployConfigPath As String = Path.Combine(Application.StartupPath, "Deploy-Office.txt")
         Dim DeployConfig() As String = Nothing
         If File.Exists(DeployConfigPath) Then
             Try
                 DeployConfig = File.ReadAllLines(DeployConfigPath)
-                If DeployConfig(0) <= ProductID.Count - 1 Then
-                    EditionSelector.SelectedIndex = DeployConfig(0)
+                Dim DeployConfigProduct As String = DeployConfig(0)
+                If DeployConfig(0).StartsWith("2019-") Then
+                    RadioButton1.Checked = True
+                    RadioButton2.Checked = False
+                    DeployConfigProduct = DeployConfig(0).Replace("2019-", String.Empty)
+                ElseIf DeployConfig(0).StartsWith("2021-") Then
+                    RadioButton1.Checked = False
+                    RadioButton2.Checked = True
+                    DeployConfigProduct = DeployConfig(0).Replace("2021-", String.Empty)
+                Else
+                    Throw New Exception
+                End If
+                If DeployConfigProduct.Length > 0 Then
+                    If DeployConfigProduct <= ProductID.Count - 1 Then
+                        EditionSelector.SelectedIndex = DeployConfigProduct
+                    End If
                 End If
             Catch ex As Exception
 
@@ -84,10 +98,16 @@ Public Class Main
         CountdownLabel.Text = Integer.Parse(CountdownLabel.Text) - 1
 
         If CountdownLabel.Text = 0 Then
-            CountdownTimer.Enabled = False
-            EditionSelector.Enabled = False
-            GoRun()
+            Start()
         End If
+    End Sub
+    Sub Start()
+        Button_Start.Visible = False
+        CountdownTimer.Enabled = False
+        EditionSelector.Enabled = False
+        RadioButton1.Enabled = False
+        RadioButton2.Enabled = False
+        GoRun()
     End Sub
 
     Sub GoRun()
@@ -113,14 +133,23 @@ Public Class Main
             Dim Configuration As String = File.ReadAllText(ConfigPath)
             Dim ProductIDValue As String = Nothing
             ProductID.TryGetValue(EditionSelector.Text, ProductIDValue)
+            Dim YYYY As String = Nothing
+            If RadioButton1.Checked = True Then
+                YYYY = "2019"
+            ElseIf RadioButton2.Checked = True Then
+                YYYY = "2021"
+            End If
+            ProductIDValue = ProductIDValue.Replace("{YYYY}", YYYY)
             If EditionSelector.Text.Contains("Volume") Then
-                Configuration = Configuration.Replace("{CHANNEL}", "PerpetualVL2019")
+                Configuration = Configuration.Replace("{CHANNEL}", "PerpetualVL" & YYYY)
             Else
                 Configuration = Configuration.Replace("{CHANNEL}", "Current")
             End If
             Configuration = Configuration.Replace("{PRODUCTID}", ProductIDValue)
             File.WriteAllText(ConfigPath, Configuration)
 
+            Shell("notepad " & ConfigPath)
+            End
             'Run setup
             LogAppend("Running setup")
             RunSetup()
@@ -141,7 +170,7 @@ Public Class Main
             LogAppend("Closing this window in 1 minute")
             WaitOneMinute()
         Catch ex As Exception
-
+            MsgBox(ex.Message)
         End Try
 
         'End
@@ -150,12 +179,21 @@ Public Class Main
 
     Private Sub EditionSelector_SelectedIndexChanged(sender As Object, e As EventArgs) Handles EditionSelector.SelectedIndexChanged
         CountdownTimer.Enabled = False
-        CountdownLabel.Text = 15
+        CountdownLabel.Text = 30
         CountdownTimer.Enabled = True
     End Sub
 
     Private Sub EditionSelector_DropDown(sender As Object, e As EventArgs) Handles EditionSelector.DropDown
         CountdownTimer.Enabled = False
         CountdownLabel.Text = "Paused"
+    End Sub
+
+    Private Sub RadioButton1_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton1.CheckedChanged
+        CountdownTimer.Enabled = False
+        CountdownLabel.Text = "Paused"
+    End Sub
+
+    Private Sub Button_Start_Click(sender As Object, e As EventArgs) Handles Button_Start.Click
+        Start()
     End Sub
 End Class
