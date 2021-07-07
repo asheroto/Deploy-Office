@@ -2,7 +2,7 @@
 
 # Deploy Office
 
-![Screenshot](https://github.com/asheroto/Deploy-Office/blob/master/screenshot.png?raw=true)
+![Screenshot](https://github.com/asheroto/Deploy-Office/blob/master/screenshot.webp?raw=true)
 
 Easily install Office 2019/2021 Simply open the program and it will start installing in 30 seconds, or change the options and click "Start" to run immediately.
 

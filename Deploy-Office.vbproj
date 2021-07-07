@@ -130,12 +130,12 @@
     </None>
     <None Include="App.config" />
     <None Include="README.md" />
+    <None Include="screenshot.webp" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\configuration.xml" />
     <Content Include="Assets\setup.exe" />
     <Content Include="icon.ico" />
-    <Content Include="screenshot.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
