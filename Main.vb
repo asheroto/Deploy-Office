@@ -148,8 +148,6 @@ Public Class Main
             Configuration = Configuration.Replace("{PRODUCTID}", ProductIDValue)
             File.WriteAllText(ConfigPath, Configuration)
 
-            Shell("notepad " & ConfigPath)
-            End
             'Run setup
             LogAppend("Running setup")
             RunSetup()
@@ -167,8 +165,8 @@ Public Class Main
             CountdownLabel.Text = "Finished"
 
             'Closing window
-            LogAppend("Closing this window in 1 minute")
-            WaitOneMinute()
+            LogAppend("Closing this window in 30 seconds")
+            WaitToClose()
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
@@ -192,7 +190,6 @@ Public Class Main
         CountdownTimer.Enabled = False
         CountdownLabel.Text = "Paused"
     End Sub
-
     Private Sub Button_Start_Click(sender As Object, e As EventArgs) Handles Button_Start.Click
         Start()
     End Sub
