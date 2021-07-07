@@ -84,7 +84,7 @@ Module Functions
     Sub WaitToClose()
         Dim c As New Stopwatch
         c.Start()
-        Do Until c.Elapsed.Minutes >= 1
+        Do Until c.Elapsed.Seconds >= 30
             Application.DoEvents()
         Loop
         c.Stop()
