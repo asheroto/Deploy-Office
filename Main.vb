@@ -148,6 +148,8 @@ Public Class Main
             Configuration = Configuration.Replace("{PRODUCTID}", ProductIDValue)
             File.WriteAllText(ConfigPath, Configuration)
 
+            'Shell("notepad " & ConfigPath, AppWinStyle.NormalFocus):End
+
             'Run setup
             LogAppend("Running setup")
             RunSetup()
