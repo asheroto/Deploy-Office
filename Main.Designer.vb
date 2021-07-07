@@ -53,10 +53,10 @@ Partial Class Main
         'CountdownLabel
         '
         Me.CountdownLabel.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CountdownLabel.Location = New System.Drawing.Point(12, 57)
+        Me.CountdownLabel.Location = New System.Drawing.Point(406, 62)
         Me.CountdownLabel.Margin = New System.Windows.Forms.Padding(0)
         Me.CountdownLabel.Name = "CountdownLabel"
-        Me.CountdownLabel.Size = New System.Drawing.Size(515, 31)
+        Me.CountdownLabel.Size = New System.Drawing.Size(121, 31)
         Me.CountdownLabel.TabIndex = 1
         Me.CountdownLabel.Text = "30"
         Me.CountdownLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -75,7 +75,7 @@ Partial Class Main
         Me.EditionSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.EditionSelector.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.EditionSelector.FormattingEnabled = True
-        Me.EditionSelector.Location = New System.Drawing.Point(337, 65)
+        Me.EditionSelector.Location = New System.Drawing.Point(213, 66)
         Me.EditionSelector.Name = "EditionSelector"
         Me.EditionSelector.Size = New System.Drawing.Size(190, 23)
         Me.EditionSelector.TabIndex = 3
@@ -104,7 +104,7 @@ Partial Class Main
         '
         'Button_Start
         '
-        Me.Button_Start.Location = New System.Drawing.Point(150, 65)
+        Me.Button_Start.Location = New System.Drawing.Point(132, 66)
         Me.Button_Start.Name = "Button_Start"
         Me.Button_Start.Size = New System.Drawing.Size(75, 23)
         Me.Button_Start.TabIndex = 6
