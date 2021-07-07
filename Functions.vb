@@ -81,7 +81,7 @@ Module Functions
         End Try
     End Sub
 
-    Sub WaitOneMinute()
+    Sub WaitToClose()
         Dim c As New Stopwatch
         c.Start()
         Do Until c.Elapsed.Minutes >= 1

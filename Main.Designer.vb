@@ -47,7 +47,7 @@ Partial Class Main
         Me.MainLabel.Name = "MainLabel"
         Me.MainLabel.Size = New System.Drawing.Size(515, 48)
         Me.MainLabel.TabIndex = 0
-        Me.MainLabel.Text = "Starting Office 2019 Installation"
+        Me.MainLabel.Text = "Starting Office Installation"
         Me.MainLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'CountdownLabel
