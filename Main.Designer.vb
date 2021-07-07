@@ -95,6 +95,7 @@ Partial Class Main
         'RadioButton2
         '
         Me.RadioButton2.AutoSize = True
+        Me.RadioButton2.Enabled = False
         Me.RadioButton2.Location = New System.Drawing.Point(72, 67)
         Me.RadioButton2.Name = "RadioButton2"
         Me.RadioButton2.Size = New System.Drawing.Size(54, 21)
