@@ -3,7 +3,6 @@ Imports System.IO.Compression
 
 Public Class Main
     Public ApplicationName = "Deploy Office"
-
     Public Const AssetsFilename As String = "Assets.zip"
     Public Const SetupFilename As String = "setup.exe"
     Public Const ConfigFilename As String = "configuration.xml"
