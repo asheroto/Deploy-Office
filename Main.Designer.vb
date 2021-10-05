@@ -99,7 +99,7 @@ Partial Class Main
         Me.RadioButton2.Size = New System.Drawing.Size(54, 21)
         Me.RadioButton2.TabIndex = 5
         Me.RadioButton2.TabStop = True
-        Me.RadioButton2.Text = "2022"
+        Me.RadioButton2.Text = "2021"
         Me.RadioButton2.UseVisualStyleBackColor = True
         '
         'Button_Start
