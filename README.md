@@ -4,7 +4,7 @@
 
 ![Screenshot](https://github.com/asheroto/Deploy-Office/blob/master/screenshot.webp?raw=true)
 
-Easily install Office 2019 or 2022. Simply open the program and it will start installing in 30 seconds, or change the options and click "Start" to run immediately.
+Easily install Office 2019 or 2021. Simply open the program and it will start installing in 30 seconds, or change the options and click "Start" to run immediately.
 
 Everything is downloaded from the cloud, so you'll always have the latest version available when installing.
 
@@ -46,7 +46,7 @@ Desktop shortcuts will be created for the installed Office application(s).
 
 ## Set the default edition/product to install at runtime
 - Create a file named `Deploy-Office.txt` in the same folder as `Deploy-Office.exe`
-- Type the edition year, either 2019 or 2022, then put a hyphen, then type position number of the edition in the drop-down, starting from `0`, and save it
+- Type the edition year, either 2019 or 2021, then put a hyphen, then type position number of the edition in the drop-down, starting from `0`, and save it
 - For example, to select `Office 2019 Home & Business` by default, type `2019-4` and save it
 
 ## Download
