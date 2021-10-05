@@ -72,10 +72,10 @@ Public Class Main
                     RadioButton1.Checked = True
                     RadioButton2.Checked = False
                     DeployConfigProduct = DeployConfig(0).Replace("2019-", String.Empty)
-                ElseIf DeployConfig(0).StartsWith("2021-") Then
+                ElseIf DeployConfig(0).StartsWith("2022-") Then
                     RadioButton1.Checked = False
                     RadioButton2.Checked = True
-                    DeployConfigProduct = DeployConfig(0).Replace("2021-", String.Empty)
+                    DeployConfigProduct = DeployConfig(0).Replace("2022-", String.Empty)
                 Else
                     Throw New Exception
                 End If
