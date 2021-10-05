@@ -83,22 +83,22 @@ Partial Class Main
         'RadioButton1
         '
         Me.RadioButton1.AutoSize = True
-        Me.RadioButton1.Checked = True
         Me.RadioButton1.Location = New System.Drawing.Point(12, 67)
         Me.RadioButton1.Name = "RadioButton1"
         Me.RadioButton1.Size = New System.Drawing.Size(54, 21)
         Me.RadioButton1.TabIndex = 4
-        Me.RadioButton1.TabStop = True
         Me.RadioButton1.Text = "2019"
         Me.RadioButton1.UseVisualStyleBackColor = True
         '
         'RadioButton2
         '
         Me.RadioButton2.AutoSize = True
+        Me.RadioButton2.Checked = True
         Me.RadioButton2.Location = New System.Drawing.Point(72, 67)
         Me.RadioButton2.Name = "RadioButton2"
         Me.RadioButton2.Size = New System.Drawing.Size(54, 21)
         Me.RadioButton2.TabIndex = 5
+        Me.RadioButton2.TabStop = True
         Me.RadioButton2.Text = "2022"
         Me.RadioButton2.UseVisualStyleBackColor = True
         '
