@@ -1,7 +1,7 @@
 ﻿<Configuration>
   <Add OfficeClientEdition="64" Channel="{CHANNEL}" AllowCdnFallback="True" OfficeMgmtCOM="False">
     <Product ID="{PRODUCTID}">
-      <Language ID="en-us" />
+      <Language ID="MatchOS" Fallback="en-us" />
     </Product>
   </Add>
   <Display AcceptEULA="True" />
