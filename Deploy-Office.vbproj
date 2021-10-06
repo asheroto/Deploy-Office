@@ -130,7 +130,6 @@
     </None>
     <None Include="App.config" />
     <None Include="README.md" />
-    <None Include="screenshot.webp" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\configuration.xml" />
