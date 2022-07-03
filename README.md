@@ -52,3 +52,7 @@ Desktop shortcuts will be created for the installed Office application(s).
 ## Download
 
 Download the [latest version](https://github.com/asheroto/Deploy-Office/releases/latest/download/Deploy-Office.exe) in the releases section.
+
+## Licensing Note
+
+This simply installs the software, just as the traditional installer would, just saves a few steps. No licensing is installed or bundled, so you'll need to handle that once installed! 😀
