@@ -1,4 +1,4 @@
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W7W64WAXN)
+﻿[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W7W64WAXN)
 
 # Deploy Office
 
@@ -50,6 +50,11 @@ Desktop shortcuts will be created for the installed Office application(s).
 - For example, to select `Office 2019 Home & Business` by default, type `2019-4` and save it
 
 ## Download
+
+**Note**:
+- Windows Defender has a false positive detection and may think it's a virus - it's not.
+- The false detection doesn't occur on all computers.
+- Feel free to compile yourself from the source code if you'd rather do that. 😊
 
 Download the [latest version](https://github.com/asheroto/Deploy-Office/releases/latest/download/Deploy-Office.zip) in the releases section. Password for the zip file is `password`.
 
