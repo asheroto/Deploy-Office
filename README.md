@@ -51,4 +51,4 @@ Desktop shortcuts will be created for the installed Office application(s).
 
 ## Download
 
-Download the [latest version](https://github.com/asheroto/Deploy-Office/releases/latest/download/Deploy-Office.exe) in the releases section.
+Download the latest version in the [releases](https://github.com/asheroto/Deploy-Office/releases) section. Password for the zip file is `password`.
