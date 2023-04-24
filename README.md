@@ -52,3 +52,7 @@ Desktop shortcuts will be created for the installed Office application(s).
 ## Download
 
 Download the [latest version](https://github.com/asheroto/Deploy-Office/releases/latest/download/Deploy-Office.zip) in the releases section. Password for the zip file is `password`.
+
+## Licensing Note
+
+This simply installs the software, just as the traditional installer would, just saves a few steps. No licensing is installed or bundled, so you'll need to handle that once installed! 😀
