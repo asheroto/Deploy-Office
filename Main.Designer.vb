@@ -32,6 +32,7 @@ Partial Class Main
         Me.RadioButton1 = New System.Windows.Forms.RadioButton()
         Me.RadioButton2 = New System.Windows.Forms.RadioButton()
         Me.Button_Start = New System.Windows.Forms.Button()
+        Me.RadioButton3 = New System.Windows.Forms.RadioButton()
         Me.SuspendLayout()
         '
         'CountdownTimer
@@ -83,7 +84,7 @@ Partial Class Main
         'RadioButton1
         '
         Me.RadioButton1.AutoSize = True
-        Me.RadioButton1.Location = New System.Drawing.Point(12, 67)
+        Me.RadioButton1.Location = New System.Drawing.Point(12, 14)
         Me.RadioButton1.Name = "RadioButton1"
         Me.RadioButton1.Size = New System.Drawing.Size(54, 21)
         Me.RadioButton1.TabIndex = 4
@@ -94,11 +95,10 @@ Partial Class Main
         '
         Me.RadioButton2.AutoSize = True
         Me.RadioButton2.Checked = True
-        Me.RadioButton2.Location = New System.Drawing.Point(72, 67)
+        Me.RadioButton2.Location = New System.Drawing.Point(12, 41)
         Me.RadioButton2.Name = "RadioButton2"
         Me.RadioButton2.Size = New System.Drawing.Size(54, 21)
         Me.RadioButton2.TabIndex = 5
-        Me.RadioButton2.TabStop = True
         Me.RadioButton2.Text = "2021"
         Me.RadioButton2.UseVisualStyleBackColor = True
         '
@@ -111,12 +111,23 @@ Partial Class Main
         Me.Button_Start.Text = "Start"
         Me.Button_Start.UseVisualStyleBackColor = True
         '
+        'RadioButton3
+        '
+        Me.RadioButton3.AutoSize = True
+        Me.RadioButton3.Location = New System.Drawing.Point(12, 65)
+        Me.RadioButton3.Name = "RadioButton3"
+        Me.RadioButton3.Size = New System.Drawing.Size(54, 21)
+        Me.RadioButton3.TabIndex = 7
+        Me.RadioButton3.Text = "2024"
+        Me.RadioButton3.UseVisualStyleBackColor = True
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(539, 461)
+        Me.Controls.Add(Me.RadioButton3)
         Me.Controls.Add(Me.Button_Start)
         Me.Controls.Add(Me.RadioButton2)
         Me.Controls.Add(Me.RadioButton1)
@@ -145,4 +156,5 @@ Partial Class Main
     Friend WithEvents RadioButton1 As RadioButton
     Friend WithEvents RadioButton2 As RadioButton
     Friend WithEvents Button_Start As Button
+    Friend WithEvents RadioButton3 As RadioButton
 End Class

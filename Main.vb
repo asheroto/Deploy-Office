@@ -71,11 +71,18 @@ Public Class Main
                 If DeployConfig(0).StartsWith("2019-") Then
                     RadioButton1.Checked = True
                     RadioButton2.Checked = False
+                    RadioButton3.Checked = False
                     DeployConfigProduct = DeployConfig(0).Replace("2019-", String.Empty)
                 ElseIf DeployConfig(0).StartsWith("2021-") Then
                     RadioButton1.Checked = False
                     RadioButton2.Checked = True
+                    RadioButton3.Checked = False
                     DeployConfigProduct = DeployConfig(0).Replace("2021-", String.Empty)
+                ElseIf DeployConfig(0).StartsWith("2024-") Then
+                    RadioButton1.Checked = False
+                    RadioButton2.Checked = False
+                    RadioButton3.Checked = True
+                    DeployConfigProduct = DeployConfig(0).Replace("2024-", String.Empty)
                 Else
                     Throw New Exception
                 End If
@@ -137,6 +144,8 @@ Public Class Main
                 YYYY = "2019"
             ElseIf RadioButton2.Checked = True Then
                 YYYY = "2021"
+            ElseIf RadioButton3.Checked = True Then
+                YYYY = "2024"
             End If
             ProductIDValue = ProductIDValue.Replace("{YYYY}", YYYY)
             If EditionSelector.Text.Contains("Volume") Then
