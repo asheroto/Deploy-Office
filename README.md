@@ -20,7 +20,7 @@ Desktop shortcuts will also be created by default for any installed Office appli
 
 ## Why Use This?
 
-Because it's a tiny 220 KB executable that downloads the latest version of Office and installs it for you. No need to download the installer, write XML configuration files, or run the setup manually.
+Because it's a tiny 260 KB executable that downloads the latest version of Office and installs it for you. No need to download the installer, write XML configuration files, or run the setup manually.
 
 ## Does This Legitimately Install Microsoft Office?
 
