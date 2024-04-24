@@ -61,12 +61,21 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized resource of type System.Byte[].
+        '''  Looks up a localized string similar to &lt;Configuration&gt;
+        '''  &lt;Add OfficeClientEdition=&quot;64&quot; Channel=&quot;{CHANNEL}&quot; AllowCdnFallback=&quot;True&quot; OfficeMgmtCOM=&quot;False&quot;&gt;
+        '''    &lt;Product ID=&quot;{PRODUCTID}&quot;&gt;
+        '''      &lt;Language ID=&quot;MatchOS&quot; Fallback=&quot;en-us&quot; /&gt;
+        '''    &lt;/Product&gt;
+        '''  &lt;/Add&gt;
+        '''  &lt;Display AcceptEULA=&quot;True&quot; /&gt;
+        '''  &lt;Property Name=&quot;PinIconsToTaskbar&quot; Value=&quot;False&quot; /&gt;
+        '''  &lt;Property Name=&quot;FORCEAPPSHUTDOWN&quot; Value=&quot;True&quot; /&gt;
+        '''  &lt;Property Name=&quot;AUTOACTIVATE&quot; Value=&quot;False&quot; /&gt;
+        '''&lt;/Configuration&gt;.
         '''</summary>
-        Friend ReadOnly Property Assets() As Byte()
+        Friend ReadOnly Property configuration_xml() As String
             Get
-                Dim obj As Object = ResourceManager.GetObject("Assets", resourceCulture)
-                Return CType(obj,Byte())
+                Return ResourceManager.GetString("configuration.xml", resourceCulture)
             End Get
         End Property
     End Module
