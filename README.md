@@ -7,7 +7,7 @@
 
 # Deploy Office
 
-![Deploy Office 1.0 screenshot](https://github.com/asheroto/Deploy-Office/assets/49938263/51a5a7e4-7201-41c4-baa3-3c469ce12357)
+![screenshot](https://github.com/asheroto/Deploy-Office/assets/49938263/e428a6c3-0e2e-49ba-81f9-b0ab37dcfa59)
 
 > [!NOTE]
 > Version 1.0 has been released!
@@ -36,7 +36,7 @@ Being open-source, the source code for this software accessible for anyone to re
 
 ## Legal
 
-All rights of Microsoft Office or any of Office products listed belong to [Microsoft Corporation](https://microsoft.com). Logo used in accordance with [Wikimedia Commons Permission declaration of Microsoft Office logo](https://commons.wikimedia.org/wiki/File:Microsoft_Office_logo_(2013%E2%80%932019).svg) by [Microsoft Corporation](https://microsoft.com) and has not been modified from its original form.
+All rights of Microsoft Office or any of Office products listed belong to [Microsoft Corporation](https://microsoft.com).
 
 ## Supported Editions/Products
 
