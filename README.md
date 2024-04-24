@@ -26,7 +26,7 @@ Because it's a tiny 260 KB executable that downloads the latest version of Offic
 
 **Yes!** This is **NOT** a bootleg or modified version of Office.
 
-As outlined in **How it Works**, the software fetches `setup.exe` directly from Microsoft.
+As outlined in [How it Works](#how-it-works), the software fetches `setup.exe` directly from Microsoft.
 
 Using Office still requires a valid license which can be activated after installation. Once Office is installed, you will normally be offered a trial period before activation is required.
 
@@ -97,16 +97,13 @@ This an **OPTIONAL** feature and is an optional feature to help automate the ins
 
 When `Deploy-Office.exe` runs, it checks if the `Deploy-Office.ini` file exists, and if so, uses its settings to determine the default Office edition/product for installation.
 
-### Setting up `Deploy-Office.ini`:
+### Setting up `Deploy-Office.ini`
 
-1. **Create `Deploy-Office.ini`**:
-   - Place `Deploy-Office.ini` in the same directory as `Deploy-Office.exe`.
+1. **Open your favorite text editor** such as Notepad, Notepad++, or Visual Studio Code.
+2. **Use the information & examples below to specify the default year/edition.** Additional options like creating shortcuts, excluding Teams, or excluding OneDrive are optional.
+3. **Save the file** as `Deploy-Office.ini` in the same folder as `Deploy-Office.exe`.
 
-2. **Edit the INI File**:
-   - Open `Deploy-Office.ini` in a text editor.
-   - Use the following information to specify the default year/edition. Additional options like creating shortcuts, excluding Teams, or excluding OneDrive are optional.
-
-### Examples:
+### Examples
 
 <details>
 <summary>Simple example using index numbers (2021 Home & Business)</summary>
@@ -156,6 +153,8 @@ exclude_onedrive=true
 - Excludes the installation of **OneDrive**.
 
 </details>
+
+### Settings
 
 | Name               | Required | Default                    | Description                                                                                                                 |
 | ------------------ | -------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
