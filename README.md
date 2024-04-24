@@ -7,7 +7,7 @@
 
 # Deploy Office
 
-![screenshot](https://github.com/asheroto/Deploy-Office/assets/49938263/e428a6c3-0e2e-49ba-81f9-b0ab37dcfa59)
+![screenshot](https://github.com/asheroto/Deploy-Office/assets/49938263/d6ef4e34-7f77-46da-80cd-6b494d321fac)
 
 > [!NOTE]
 > Version 1.0 has been released!
