@@ -7,11 +7,11 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Deploy-Office")>
+<Assembly: AssemblyTitle("Deploy Office")>
 <Assembly: AssemblyDescription("Deploys Office")>
-<Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("Deploy-Office")>
-<Assembly: AssemblyCopyright("")>
+<Assembly: AssemblyCompany("asheroto")>
+<Assembly: AssemblyProduct("Deploy Office")>
+<Assembly: AssemblyCopyright("Copyright (c) 2024 asheroto - MIT License")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
@@ -30,5 +30,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("0.1.7.0")>
-<Assembly: AssemblyFileVersion("0.1.7.0")>
+<Assembly: AssemblyVersion("1.0.0.0")>
+<Assembly: AssemblyFileVersion("1.0.0.0")>

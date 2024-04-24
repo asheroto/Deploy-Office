@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Main
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,25 +20,30 @@ Partial Class Main
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
-        Me.CountdownTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer_Countdown = New System.Windows.Forms.Timer(Me.components)
         Me.MainLabel = New System.Windows.Forms.Label()
         Me.CountdownLabel = New System.Windows.Forms.Label()
         Me.LogTextbox = New System.Windows.Forms.TextBox()
-        Me.EditionSelector = New System.Windows.Forms.ComboBox()
-        Me.RadioButton1 = New System.Windows.Forms.RadioButton()
-        Me.RadioButton2 = New System.Windows.Forms.RadioButton()
+        Me.ComboBox_Edition = New System.Windows.Forms.ComboBox()
         Me.Button_Start = New System.Windows.Forms.Button()
-        Me.RadioButton3 = New System.Windows.Forms.RadioButton()
+        Me.ComboBox_Year = New System.Windows.Forms.ComboBox()
+        Me.Label_Year = New System.Windows.Forms.Label()
+        Me.Label_Edition = New System.Windows.Forms.Label()
+        Me.CheckBox_CreateDesktopShortcuts = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_ExcludeTeams = New System.Windows.Forms.CheckBox()
+        Me.CheckBox_ExcludeOneDrive = New System.Windows.Forms.CheckBox()
+        Me.LinkLabel_CheckForUpdates = New System.Windows.Forms.LinkLabel()
+        Me.LinkLabel_Repo = New System.Windows.Forms.LinkLabel()
         Me.SuspendLayout()
         '
-        'CountdownTimer
+        'Timer_Countdown
         '
-        Me.CountdownTimer.Enabled = True
-        Me.CountdownTimer.Interval = 1000
+        Me.Timer_Countdown.Enabled = True
+        Me.Timer_Countdown.Interval = 1000
         '
         'MainLabel
         '
@@ -46,92 +51,151 @@ Partial Class Main
         Me.MainLabel.Location = New System.Drawing.Point(12, 9)
         Me.MainLabel.Margin = New System.Windows.Forms.Padding(0)
         Me.MainLabel.Name = "MainLabel"
-        Me.MainLabel.Size = New System.Drawing.Size(515, 48)
+        Me.MainLabel.Size = New System.Drawing.Size(460, 48)
         Me.MainLabel.TabIndex = 0
         Me.MainLabel.Text = "Starting Office Installation"
         Me.MainLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'CountdownLabel
         '
-        Me.CountdownLabel.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CountdownLabel.Location = New System.Drawing.Point(406, 62)
+        Me.CountdownLabel.Font = New System.Drawing.Font("Segoe UI Semibold", 26.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CountdownLabel.Location = New System.Drawing.Point(278, 73)
         Me.CountdownLabel.Margin = New System.Windows.Forms.Padding(0)
         Me.CountdownLabel.Name = "CountdownLabel"
-        Me.CountdownLabel.Size = New System.Drawing.Size(121, 31)
+        Me.CountdownLabel.Size = New System.Drawing.Size(194, 57)
         Me.CountdownLabel.TabIndex = 1
-        Me.CountdownLabel.Text = "30"
+        Me.CountdownLabel.Text = "Running"
         Me.CountdownLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'LogTextbox
         '
-        Me.LogTextbox.Location = New System.Drawing.Point(12, 108)
+        Me.LogTextbox.Location = New System.Drawing.Point(12, 194)
         Me.LogTextbox.Multiline = True
         Me.LogTextbox.Name = "LogTextbox"
         Me.LogTextbox.ReadOnly = True
-        Me.LogTextbox.Size = New System.Drawing.Size(515, 337)
+        Me.LogTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.LogTextbox.Size = New System.Drawing.Size(460, 262)
         Me.LogTextbox.TabIndex = 2
         '
-        'EditionSelector
+        'ComboBox_Edition
         '
-        Me.EditionSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.EditionSelector.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.EditionSelector.FormattingEnabled = True
-        Me.EditionSelector.Location = New System.Drawing.Point(213, 66)
-        Me.EditionSelector.Name = "EditionSelector"
-        Me.EditionSelector.Size = New System.Drawing.Size(190, 23)
-        Me.EditionSelector.TabIndex = 3
-        '
-        'RadioButton1
-        '
-        Me.RadioButton1.AutoSize = True
-        Me.RadioButton1.Location = New System.Drawing.Point(12, 14)
-        Me.RadioButton1.Name = "RadioButton1"
-        Me.RadioButton1.Size = New System.Drawing.Size(54, 21)
-        Me.RadioButton1.TabIndex = 4
-        Me.RadioButton1.Text = "2019"
-        Me.RadioButton1.UseVisualStyleBackColor = True
-        '
-        'RadioButton2
-        '
-        Me.RadioButton2.AutoSize = True
-        Me.RadioButton2.Checked = True
-        Me.RadioButton2.Location = New System.Drawing.Point(12, 41)
-        Me.RadioButton2.Name = "RadioButton2"
-        Me.RadioButton2.Size = New System.Drawing.Size(54, 21)
-        Me.RadioButton2.TabIndex = 5
-        Me.RadioButton2.Text = "2021"
-        Me.RadioButton2.UseVisualStyleBackColor = True
+        Me.ComboBox_Edition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox_Edition.Enabled = False
+        Me.ComboBox_Edition.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ComboBox_Edition.FormattingEnabled = True
+        Me.ComboBox_Edition.Location = New System.Drawing.Point(63, 105)
+        Me.ComboBox_Edition.Name = "ComboBox_Edition"
+        Me.ComboBox_Edition.Size = New System.Drawing.Size(212, 25)
+        Me.ComboBox_Edition.TabIndex = 3
         '
         'Button_Start
         '
-        Me.Button_Start.Location = New System.Drawing.Point(132, 66)
+        Me.Button_Start.Enabled = False
+        Me.Button_Start.Location = New System.Drawing.Point(12, 161)
         Me.Button_Start.Name = "Button_Start"
-        Me.Button_Start.Size = New System.Drawing.Size(75, 23)
+        Me.Button_Start.Size = New System.Drawing.Size(460, 27)
         Me.Button_Start.TabIndex = 6
         Me.Button_Start.Text = "Start"
         Me.Button_Start.UseVisualStyleBackColor = True
         '
-        'RadioButton3
+        'ComboBox_Year
         '
-        Me.RadioButton3.AutoSize = True
-        Me.RadioButton3.Location = New System.Drawing.Point(12, 65)
-        Me.RadioButton3.Name = "RadioButton3"
-        Me.RadioButton3.Size = New System.Drawing.Size(54, 21)
-        Me.RadioButton3.TabIndex = 7
-        Me.RadioButton3.Text = "2024"
-        Me.RadioButton3.UseVisualStyleBackColor = True
+        Me.ComboBox_Year.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox_Year.FormattingEnabled = True
+        Me.ComboBox_Year.Location = New System.Drawing.Point(63, 73)
+        Me.ComboBox_Year.Name = "ComboBox_Year"
+        Me.ComboBox_Year.Size = New System.Drawing.Size(120, 25)
+        Me.ComboBox_Year.TabIndex = 8
+        '
+        'Label_Year
+        '
+        Me.Label_Year.AutoSize = True
+        Me.Label_Year.Location = New System.Drawing.Point(12, 77)
+        Me.Label_Year.Name = "Label_Year"
+        Me.Label_Year.Size = New System.Drawing.Size(33, 17)
+        Me.Label_Year.TabIndex = 9
+        Me.Label_Year.Text = "Year"
+        '
+        'Label_Edition
+        '
+        Me.Label_Edition.AutoSize = True
+        Me.Label_Edition.Location = New System.Drawing.Point(12, 108)
+        Me.Label_Edition.Name = "Label_Edition"
+        Me.Label_Edition.Size = New System.Drawing.Size(48, 17)
+        Me.Label_Edition.TabIndex = 10
+        Me.Label_Edition.Text = "Edition"
+        '
+        'CheckBox_CreateDesktopShortcuts
+        '
+        Me.CheckBox_CreateDesktopShortcuts.AutoSize = True
+        Me.CheckBox_CreateDesktopShortcuts.Checked = True
+        Me.CheckBox_CreateDesktopShortcuts.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox_CreateDesktopShortcuts.Location = New System.Drawing.Point(14, 135)
+        Me.CheckBox_CreateDesktopShortcuts.Name = "CheckBox_CreateDesktopShortcuts"
+        Me.CheckBox_CreateDesktopShortcuts.Size = New System.Drawing.Size(175, 21)
+        Me.CheckBox_CreateDesktopShortcuts.TabIndex = 11
+        Me.CheckBox_CreateDesktopShortcuts.Text = "Create Desktop Shortcuts"
+        Me.CheckBox_CreateDesktopShortcuts.UseVisualStyleBackColor = True
+        '
+        'CheckBox_ExcludeTeams
+        '
+        Me.CheckBox_ExcludeTeams.AutoSize = True
+        Me.CheckBox_ExcludeTeams.Location = New System.Drawing.Point(195, 135)
+        Me.CheckBox_ExcludeTeams.Name = "CheckBox_ExcludeTeams"
+        Me.CheckBox_ExcludeTeams.Size = New System.Drawing.Size(112, 21)
+        Me.CheckBox_ExcludeTeams.TabIndex = 12
+        Me.CheckBox_ExcludeTeams.Text = "Exclude Teams"
+        Me.CheckBox_ExcludeTeams.UseVisualStyleBackColor = True
+        '
+        'CheckBox_ExcludeOneDrive
+        '
+        Me.CheckBox_ExcludeOneDrive.AutoSize = True
+        Me.CheckBox_ExcludeOneDrive.Location = New System.Drawing.Point(313, 135)
+        Me.CheckBox_ExcludeOneDrive.Name = "CheckBox_ExcludeOneDrive"
+        Me.CheckBox_ExcludeOneDrive.Size = New System.Drawing.Size(129, 21)
+        Me.CheckBox_ExcludeOneDrive.TabIndex = 13
+        Me.CheckBox_ExcludeOneDrive.Text = "Exclude OneDrive"
+        Me.CheckBox_ExcludeOneDrive.UseVisualStyleBackColor = True
+        '
+        'LinkLabel_CheckForUpdates
+        '
+        Me.LinkLabel_CheckForUpdates.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel_CheckForUpdates.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
+        Me.LinkLabel_CheckForUpdates.Location = New System.Drawing.Point(370, 459)
+        Me.LinkLabel_CheckForUpdates.Name = "LinkLabel_CheckForUpdates"
+        Me.LinkLabel_CheckForUpdates.Size = New System.Drawing.Size(102, 13)
+        Me.LinkLabel_CheckForUpdates.TabIndex = 14
+        Me.LinkLabel_CheckForUpdates.TabStop = True
+        Me.LinkLabel_CheckForUpdates.Text = "Check for Updates"
+        Me.LinkLabel_CheckForUpdates.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'LinkLabel_Repo
+        '
+        Me.LinkLabel_Repo.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LinkLabel_Repo.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
+        Me.LinkLabel_Repo.Location = New System.Drawing.Point(9, 459)
+        Me.LinkLabel_Repo.Name = "LinkLabel_Repo"
+        Me.LinkLabel_Repo.Size = New System.Drawing.Size(49, 13)
+        Me.LinkLabel_Repo.TabIndex = 15
+        Me.LinkLabel_Repo.TabStop = True
+        Me.LinkLabel_Repo.Text = "Repo"
         '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(539, 461)
-        Me.Controls.Add(Me.RadioButton3)
+        Me.ClientSize = New System.Drawing.Size(484, 481)
+        Me.Controls.Add(Me.LinkLabel_Repo)
+        Me.Controls.Add(Me.LinkLabel_CheckForUpdates)
+        Me.Controls.Add(Me.CheckBox_ExcludeOneDrive)
+        Me.Controls.Add(Me.CheckBox_ExcludeTeams)
+        Me.Controls.Add(Me.CheckBox_CreateDesktopShortcuts)
+        Me.Controls.Add(Me.Label_Edition)
+        Me.Controls.Add(Me.Label_Year)
+        Me.Controls.Add(Me.ComboBox_Year)
         Me.Controls.Add(Me.Button_Start)
-        Me.Controls.Add(Me.RadioButton2)
-        Me.Controls.Add(Me.RadioButton1)
-        Me.Controls.Add(Me.EditionSelector)
+        Me.Controls.Add(Me.ComboBox_Edition)
         Me.Controls.Add(Me.LogTextbox)
         Me.Controls.Add(Me.CountdownLabel)
         Me.Controls.Add(Me.MainLabel)
@@ -148,13 +212,18 @@ Partial Class Main
 
     End Sub
 
-    Friend WithEvents CountdownTimer As Timer
+    Friend WithEvents Timer_Countdown As Timer
     Friend WithEvents MainLabel As Label
     Friend WithEvents CountdownLabel As Label
     Friend WithEvents LogTextbox As TextBox
-    Friend WithEvents EditionSelector As ComboBox
-    Friend WithEvents RadioButton1 As RadioButton
-    Friend WithEvents RadioButton2 As RadioButton
+    Friend WithEvents ComboBox_Edition As ComboBox
     Friend WithEvents Button_Start As Button
-    Friend WithEvents RadioButton3 As RadioButton
+    Friend WithEvents ComboBox_Year As ComboBox
+    Friend WithEvents Label_Year As Label
+    Friend WithEvents Label_Edition As Label
+    Friend WithEvents CheckBox_CreateDesktopShortcuts As CheckBox
+    Friend WithEvents CheckBox_ExcludeTeams As CheckBox
+    Friend WithEvents CheckBox_ExcludeOneDrive As CheckBox
+    Friend WithEvents LinkLabel_CheckForUpdates As LinkLabel
+    Friend WithEvents LinkLabel_Repo As LinkLabel
 End Class

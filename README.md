@@ -1,63 +1,188 @@
-﻿[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W7W64WAXN)
+﻿[![Release](https://img.shields.io/github/v/release/asheroto/Deploy-Office)](https://github.com/asheroto/Deploy-Office/releases)
+[![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/asheroto/Deploy-Office)](https://github.com/asheroto/Deploy-Office/releases)
+[![GitHub Downloads - All Releases](https://img.shields.io/github/downloads/asheroto/Deploy-Office/total)](https://github.com/asheroto/Deploy-Office/releases)
+[![GitHub Sponsor](https://img.shields.io/github/sponsors/asheroto?label=Sponsor&logo=GitHub)](https://github.com/sponsors/asheroto?frequency=one-time&sponsor=asheroto)
+<a href="https://ko-fi.com/asheroto"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Ko-Fi Button" height="20px"></a>
+<a href="https://www.buymeacoffee.com/asheroto"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=Deploy-Office&button_colour=FFDD00&font_colour=000000&font_family=Lato&outline_colour=000000&coffee_colour=ffffff)" height="40px"></a>
 
 # Deploy Office
 
-![Screenshot](https://github.com/asheroto/Deploy-Office/blob/master/screenshot.webp?raw=true)
+![screenshot](https://github.com/asheroto/Deploy-Office/assets/49938263/e428a6c3-0e2e-49ba-81f9-b0ab37dcfa59)
 
-Easily install Office 2019 or 2021. Simply open the program and it will start installing in 30 seconds, or change the options and click "Start" to run immediately.
+> [!NOTE]
+> Version 1.0 has been released!
+
+Easily install Office 2019, 2021, 2024, or Microsoft 365. Simply open the program and it will start installing in 30 seconds, or change the options and click `Start` to run immediately.
 
 Everything is downloaded from the cloud, so you'll always have the latest version available when installing.
 
-Desktop shortcuts will be created for the installed Office application(s).
+Desktop shortcuts will also be created by default for any installed Office applications.
 
-### Editions/Products Supported
-- Microsoft 365 Family/Personal
-- Microsoft 365 Small Business
-- Microsoft 365 Education
-- Microsoft 365 Enterprise
-- Home & Business
-- Home & Student
-- Personal
-- Professional
-- Professional Plus
-- Professional Plus - Volume
-- Standard
-- Standard - Volume
-- Visio Standard
-- Visio Standard - Volume
-- Visio Professional
-- Visio Professional - Volume
-- Project Standard
-- Project Standard - Volume
-- Project Professional
-- Project Professional - Volume
-- Access
-- Access - Volume
-- Excel
-- Excel - Volume
-- Outlook
-- Outlook - Volume
-- PowerPoint
-- PowerPoint - Volume
-- Publisher
-- Publisher - Volume
-- Word
-- Word - Volume
+## Why Use This?
 
-## Set the default edition/product to install at runtime
-- Create a file named `Deploy-Office.txt` in the same folder as `Deploy-Office.exe`
-- Type the edition year, either 2019 or 2021, then put a hyphen, then type position number of the edition in the drop-down, starting from `0`, and save it
-- For example, to select `Office 2019 Home & Business` by default, type `2019-4` and save it
+Because it's a tiny 220 KB executable that downloads the latest version of Office and installs it for you. No need to download the installer, write XML configuration files, or run the setup manually.
+
+## Does This Legitimately Install Microsoft Office?
+
+**Yes!** This is **NOT** a bootleg or modified version of Office.
+
+As outlined in **How it Works**, the software fetches `setup.exe` directly from Microsoft.
+
+Using Office still requires a valid license which can be activated after installation. Once Office is installed, you will normally be offered a trial period before activation is required.
+
+This project and its creators are not affiliated with Microsoft. It solely utilizes the official Office installer provided by Microsoft, which is publicly accessible.
+
+Being open-source, the source code for this software accessible for anyone to read and inspect.
+
+## Legal
+
+All rights of Microsoft Office or any of Office products listed belong to [Microsoft Corporation](https://microsoft.com).
+
+## Supported Editions/Products
+
+> [!NOTE]
+> If you specify a calendar year like 2021, it will limit the selection to non-365 editions only.
+> Similarly, specifying the calendar year `Microsoft 365` will limit the selection to only Microsoft 365 editions.
+> This is a design choice to make choosing the edition simple.
+
+### Years
+
+1. 2019
+2. 2021
+3. 2024
+4. Microsoft 365
+
+### Editions/Products
+
+1. Microsoft 365 Family/Personal
+2. Microsoft 365 Small Business
+3. Microsoft 365 Education
+4. Microsoft 365 Enterprise
+5. Home & Business
+6. Home & Student
+7. Personal
+8. Professional
+9. Professional Plus
+10. Professional Plus - Volume
+11. Standard
+12. Standard - Volume
+13. Visio Standard
+14. Visio Standard - Volume
+15. Visio Professional
+16. Visio Professional - Volume
+17. Project Standard
+18. Project Standard - Volume
+19. Project Professional
+20. Project Professional - Volume
+21. Access
+22. Access - Volume
+23. Excel
+24. Excel - Volume
+25. Outlook
+26. Outlook - Volume
+27. PowerPoint
+28. PowerPoint - Volume
+29. Publisher
+30. Publisher - Volume
+31. Word
+32. Word - Volume
+
+## Specify Default Office Edition/Product Installation at Runtime (Optional)
+
+> [!IMPORTANT]
+> Starting from version 1.0, the ordering of the editions now begins at 1 instead of 0.
+> `Deploy-Office.txt` is no longer supported.
+
+This an **OPTIONAL** feature and is an optional feature to help automated the installation of Office.
+
+When `Deploy-Office.exe` runs, it checks if the `Deploy-Office.ini` file exists, and if so, uses its settings to determine the default Office edition/product for installation.
+
+### Setting up `Deploy-Office.ini`:
+
+1. **Create `Deploy-Office.ini`**:
+   - Place `Deploy-Office.ini` in the same directory as `Deploy-Office.exe`.
+
+2. **Edit the INI File**:
+   - Open `Deploy-Office.ini` in a text editor.
+   - Use the following information to specify the default year/edition. Additional options like creating shortcuts, excluding Teams, or excluding OneDrive are optional.
+
+### Examples:
+
+<details>
+<summary>Simple example using index numbers (2021 Home & Business)</summary>
+
+```ini
+year=2
+edition=5
+```
+
+- Specifies the year as **2021** (index 2).
+- Specifies the edition to **Home & Business** (index 5).
+- Creates **desktop shortcuts** (enabled by default).
+
+</details>
+
+<details>
+<summary>Simple example using values (2024 Word)</summary>
+
+```ini
+year=2024
+edition=Word
+```
+
+- Specifies the year as **2024**.
+- Sets the edition to **Word**.
+- Creates **desktop shortcuts** (enabled by default).
+- Excludes the installation of **Microsoft Teams**.
+- Excludes the installation of **OneDrive**.
+
+</details>
+
+<details>
+<summary>Detailed example using values and optional settings</summary>
+
+```ini
+year=2024
+edition=Microsoft 365 Family/Personal
+shortcuts=false
+exclude_teams=true
+exclude_onedrive=true
+```
+
+- Specifies the year as **2024**.
+- Sets the edition to **Microsoft 365 Family/Personal**.
+- Disables the creation of **desktop shortcuts**.
+- Excludes the installation of **Microsoft Teams**.
+- Excludes the installation of **OneDrive**.
+
+</details>
+
+| Name               | Required | Default                    | Description                                                                                                                 |
+| ------------------ | -------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `year`             | Yes      | 2021                       | Specifies the year for the Office edition/product installation. Can be an index number or a specific year.                  |
+| `edition`          | Yes      | Professional Plus - Volume | Specifies the edition of the Office product to be installed. Can be an index number or a specific edition name.             |
+| `shortcuts`        | No       | Enabled                    | Determines whether desktop shortcuts should be created. Set to `true` or `false`.                                           |
+| `exclude_teams`    | No       | Disabled                   | Specifies whether to exclude the installation of Microsoft Teams. Set to `true` to exclude Teams, otherwise set to `false`. |
+| `exclude_onedrive` | No       | Disabled                   | Specifies whether to exclude the installation of OneDrive. Set to `true` to exclude OneDrive, otherwise set to `false`.     |
+
+Note that shortcuts will be created by default unless disabled.
+
+## How it Works
+
+1. If using `Deploy-Office.ini`, it will set the default edition/product to install
+2. Downloads `setup.exe` from https://officecdn.microsoft.com/pr/wsus/setup.exe
+3. Extracts configuration.xml
+4. Runs `setup.exe /Configure configuration.xml`
+
+**Note**: if you need more advanced options with your Office setup, visit [config.office.com](https://config.office.com/deploymentsettings).
+
+## Prerequisites
+
+- Windows 10 or later
+- Server 2019 or later
+- .NET Framework 4.8 (which you probably already have)
+- No additional dependencies needed 😊
 
 ## Download
 
-**Note**:
-- Windows Defender has a false positive detection and may think it's a virus - it's not.
-- The false detection doesn't occur on all computers.
-- Feel free to compile yourself from the source code if you'd rather do that. 😊
-
-Download the [latest version](https://github.com/asheroto/Deploy-Office/releases/latest/download/Deploy-Office.zip) in the releases section. Password for the zip file is `password`.
-
-## Licensing Note
-
-This simply installs the software, just as the traditional installer would, just saves a few steps. No licensing is installed or bundled, so you'll need to handle that once installed! 😀
+Download the [latest version](https://github.com/asheroto/Deploy-Office/releases/latest/download/Deploy-Office.zip) in the releases section.
