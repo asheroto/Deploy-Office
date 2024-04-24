@@ -93,7 +93,7 @@ All rights of Microsoft Office or any of Office products listed belong to [Micro
 > Starting from version 1.0, the ordering of the editions now begins at 1 instead of 0.
 > `Deploy-Office.txt` is no longer supported.
 
-This an **OPTIONAL** feature and is an optional feature to help automated the installation of Office.
+This an **OPTIONAL** feature and is an optional feature to help automate the installation of Office.
 
 When `Deploy-Office.exe` runs, it checks if the `Deploy-Office.ini` file exists, and if so, uses its settings to determine the default Office edition/product for installation.
 
