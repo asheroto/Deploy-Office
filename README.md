@@ -28,9 +28,9 @@ Because it's a tiny 260 KB executable that downloads the latest version of Offic
 
 As outlined in [How it Works](#how-it-works), the software fetches `setup.exe` directly from Microsoft.
 
-Using Office still requires a valid license which can be activated after installation. Once Office is installed, you will normally be offered a trial period before activation is required.
+Office still needs a valid license, which you can activate post-installation. Typically, after installing Office, you're given a trial period before you need to activate it.
 
-This project and its creators are not affiliated with Microsoft. It solely utilizes the official Office installer provided by Microsoft, which is publicly accessible.
+This project and its creators are not affiliated with Microsoft. This software uses the official Office installer provided by Microsoft, which is publicly accessible.
 
 Being open-source, the source code for this software accessible for anyone to read and inspect.
 
