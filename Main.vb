@@ -333,6 +333,7 @@ Public Class Main
             ' Closing window
             OutputAppend("Closing this window in 30 seconds")
             WaitToClose()
+            Application.Exit()
 
         Catch ex As Exception
             LogError(ex.Message)
