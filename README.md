@@ -129,13 +129,11 @@ edition=Word
 - Specifies the year as **2024**.
 - Sets the edition to **Word**.
 - Creates **desktop shortcuts** (enabled by default).
-- Excludes the installation of **Microsoft Teams**.
-- Excludes the installation of **OneDrive**.
 
 </details>
 
 <details>
-<summary>Detailed example using values and optional settings</summary>
+<summary>Detailed example using values and optional settings (2024 Microsoft 365 Family/Personal)</summary>
 
 ```ini
 year=2024
@@ -147,6 +145,25 @@ exclude_onedrive=true
 
 - Specifies the year as **2024**.
 - Sets the edition to **Microsoft 365 Family/Personal**.
+- Disables the creation of **desktop shortcuts**.
+- Excludes the installation of **Microsoft Teams**.
+- Excludes the installation of **OneDrive**.
+
+</details>
+
+<details>
+<summary>Detailed example using values and optional settings (Professional Plus - Volume)</summary>
+
+```ini
+year=2024
+edition=10
+shortcuts=false
+exclude_teams=true
+exclude_onedrive=true
+```
+
+- Specifies the year as **2024**.
+- Sets the edition to **Professional Plus - Volume**.
 - Disables the creation of **desktop shortcuts**.
 - Excludes the installation of **Microsoft Teams**.
 - Excludes the installation of **OneDrive**.
