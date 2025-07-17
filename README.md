@@ -202,4 +202,4 @@ Note that shortcuts will be created by default unless disabled.
 
 ## Download
 
-Download the [latest version](https://github.com/asheroto/Deploy-Office/releases/latest/download/Deploy-Office.zip) in the releases section.
+Download the [latest version](https://github.com/asheroto/Deploy-Office/releases/latest/download/Deploy-Office.exe) in the releases section.
