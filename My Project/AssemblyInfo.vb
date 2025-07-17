@@ -11,7 +11,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Deploys Office")>
 <Assembly: AssemblyCompany("asheroto")>
 <Assembly: AssemblyProduct("Deploy Office")>
-<Assembly: AssemblyCopyright("Copyright (c) 2024 asheroto - MIT License")>
+<Assembly: AssemblyCopyright("Copyright (c) 2025 asheroto - MIT License")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
@@ -30,5 +30,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("1.0.1.0")>
-<Assembly: AssemblyFileVersion("1.0.1.0")>
+<Assembly: AssemblyVersion("1.1.0.0")>
+<Assembly: AssemblyFileVersion("1.1.0.0")>

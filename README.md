@@ -1,4 +1,5 @@
-﻿[![Release](https://img.shields.io/github/v/release/asheroto/Deploy-Office)](https://github.com/asheroto/Deploy-Office/releases)
+﻿
+[![Release](https://img.shields.io/github/v/release/asheroto/Deploy-Office)](https://github.com/asheroto/Deploy-Office/releases)
 [![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/asheroto/Deploy-Office)](https://github.com/asheroto/Deploy-Office/releases)
 [![GitHub Sponsor](https://img.shields.io/github/sponsors/asheroto?label=Sponsor&logo=GitHub)](https://github.com/sponsors/asheroto?frequency=one-time&sponsor=asheroto)
 <a href="https://ko-fi.com/asheroto"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Ko-Fi Button" height="20px"></a>
@@ -9,7 +10,7 @@
 ![screenshot](https://github.com/asheroto/Deploy-Office/assets/49938263/d6ef4e34-7f77-46da-80cd-6b494d321fac)
 
 > [!NOTE]
-> Version 1.0 has been released!
+> The auto-start timer has been removed. You must now click Start manually. Or if you wish have the installer start automatically, use the `autostart` setting as shown below.
 
 Easily install Office 2019, 2021, 2024, or Microsoft 365. Simply open the program and it will start installing in 30 seconds, or change the options and click `Start` to run immediately.
 
@@ -88,10 +89,6 @@ All rights of Microsoft Office or any of Office products listed belong to [Micro
 
 ## Specify Default Office Edition/Product Installation at Runtime (Optional)
 
-> [!IMPORTANT]
-> Starting from version 1.0, the ordering of the editions now begins at 1 instead of 0.
-> `Deploy-Office.txt` is no longer supported.
-
 This an **OPTIONAL** feature and is an optional feature to help automate the installation of Office.
 
 When `Deploy-Office.exe` runs, it checks if the `Deploy-Office.ini` file exists, and if so, uses its settings to determine the default Office edition/product for installation.
@@ -133,14 +130,15 @@ edition=Word
 </details>
 
 <details>
-<summary>Detailed example using values and optional settings (2024 Microsoft 365 Family/Personal)</summary>
+<summary>Detailed example using values and optional settings (Microsoft 365 Enterprise)</summary>
 
 ```ini
-year=2024
-edition=Microsoft 365 Family/Personal
-shortcuts=false
-exclude_teams=true
+year=Microsoft 365
+edition=Microsoft 365 Enterprise
+shortcuts=true
+exclude_teams=false
 exclude_onedrive=true
+autostart=true
 ```
 
 - Specifies the year as **2024**.
@@ -148,6 +146,7 @@ exclude_onedrive=true
 - Disables the creation of **desktop shortcuts**.
 - Excludes the installation of **Microsoft Teams**.
 - Excludes the installation of **OneDrive**.
+- Automatically start installing when launched.
 
 </details>
 
@@ -160,6 +159,7 @@ edition=10
 shortcuts=false
 exclude_teams=true
 exclude_onedrive=true
+autostart=true
 ```
 
 - Specifies the year as **2024**.
@@ -167,18 +167,20 @@ exclude_onedrive=true
 - Disables the creation of **desktop shortcuts**.
 - Excludes the installation of **Microsoft Teams**.
 - Excludes the installation of **OneDrive**.
+- Automatically start installing when launched
 
 </details>
 
 ### Settings
 
-| Name               | Required | Default                    | Description                                                                                                                 |
-| ------------------ | -------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `year`             | Yes      | 2021                       | Specifies the year for the Office edition/product installation. Can be an index number or a specific year.                  |
-| `edition`          | Yes      | Professional Plus - Volume | Specifies the edition of the Office product to be installed. Can be an index number or a specific edition name.             |
-| `shortcuts`        | No       | Enabled                    | Determines whether desktop shortcuts should be created. Set to `true` or `false`.                                           |
-| `exclude_teams`    | No       | Disabled                   | Specifies whether to exclude the installation of Microsoft Teams. Set to `true` to exclude Teams, otherwise set to `false`. |
-| `exclude_onedrive` | No       | Disabled                   | Specifies whether to exclude the installation of OneDrive. Set to `true` to exclude OneDrive, otherwise set to `false`.     |
+| Name               | Required | Default                    | Description                                                                                             |
+| ------------------ | -------- | -------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `year`             | Yes      | 2021                       | Specifies the Office version. Accepts a year (e.g., `2021`) or an index number.                         |
+| `edition`          | Yes      | Professional Plus - Volume | Defines the Office edition to install. Accepts a name or index (e.g., `Standard`, `Professional Plus`). |
+| `shortcuts`        | No       | Enabled                    | Controls whether desktop shortcuts are created. Set to `true` or `false`.                               |
+| `exclude_teams`    | No       | Disabled                   | Set to `true` to skip installing Microsoft Teams, otherwise set to `false`.                             |
+| `exclude_onedrive` | No       | Disabled                   | Set to `true` to skip installing OneDrive, otherwise set to `false`.                                    |
+| `autostart`        | No       | Disabled                   | If set to `true`, installation begins immediately when the program runs instead of waiting for input.   |
 
 Note that shortcuts will be created by default unless disabled.
 

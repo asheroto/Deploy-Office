@@ -68,9 +68,6 @@ Module Functions
     End Sub
 
     Sub LogError(message As String)
-        'Pause
-        Main.PauseCountdown()
-
         ' Replace newlines in the message to ensure it logs as one line
         Dim singleLineMessage As String = message.Replace(vbCrLf, " ").Replace(vbCr, " ").Replace(vbLf, " ")
 

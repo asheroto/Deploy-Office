@@ -24,9 +24,7 @@ Partial Class Main
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
-        Me.Timer_Countdown = New System.Windows.Forms.Timer(Me.components)
         Me.MainLabel = New System.Windows.Forms.Label()
-        Me.CountdownLabel = New System.Windows.Forms.Label()
         Me.LogTextbox = New System.Windows.Forms.TextBox()
         Me.ComboBox_Edition = New System.Windows.Forms.ComboBox()
         Me.Button_Start = New System.Windows.Forms.Button()
@@ -38,12 +36,8 @@ Partial Class Main
         Me.CheckBox_ExcludeOneDrive = New System.Windows.Forms.CheckBox()
         Me.LinkLabel_CheckForUpdates = New System.Windows.Forms.LinkLabel()
         Me.LinkLabel_Repo = New System.Windows.Forms.LinkLabel()
+        Me.Timer_autostart = New System.Windows.Forms.Timer(Me.components)
         Me.SuspendLayout()
-        '
-        'Timer_Countdown
-        '
-        Me.Timer_Countdown.Enabled = True
-        Me.Timer_Countdown.Interval = 1000
         '
         'MainLabel
         '
@@ -53,19 +47,8 @@ Partial Class Main
         Me.MainLabel.Name = "MainLabel"
         Me.MainLabel.Size = New System.Drawing.Size(460, 48)
         Me.MainLabel.TabIndex = 0
-        Me.MainLabel.Text = "Starting Office Installation"
+        Me.MainLabel.Text = "Office Installation"
         Me.MainLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'CountdownLabel
-        '
-        Me.CountdownLabel.Font = New System.Drawing.Font("Segoe UI Semibold", 26.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CountdownLabel.Location = New System.Drawing.Point(278, 73)
-        Me.CountdownLabel.Margin = New System.Windows.Forms.Padding(0)
-        Me.CountdownLabel.Name = "CountdownLabel"
-        Me.CountdownLabel.Size = New System.Drawing.Size(194, 57)
-        Me.CountdownLabel.TabIndex = 1
-        Me.CountdownLabel.Text = "Running"
-        Me.CountdownLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'LogTextbox
         '
@@ -180,6 +163,11 @@ Partial Class Main
         Me.LinkLabel_Repo.TabStop = True
         Me.LinkLabel_Repo.Text = "Repo"
         '
+        'Timer_autostart
+        '
+        Me.Timer_autostart.Enabled = True
+        Me.Timer_autostart.Interval = 1
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
@@ -197,7 +185,6 @@ Partial Class Main
         Me.Controls.Add(Me.Button_Start)
         Me.Controls.Add(Me.ComboBox_Edition)
         Me.Controls.Add(Me.LogTextbox)
-        Me.Controls.Add(Me.CountdownLabel)
         Me.Controls.Add(Me.MainLabel)
         Me.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
@@ -211,10 +198,7 @@ Partial Class Main
         Me.PerformLayout()
 
     End Sub
-
-    Friend WithEvents Timer_Countdown As Timer
     Friend WithEvents MainLabel As Label
-    Friend WithEvents CountdownLabel As Label
     Friend WithEvents LogTextbox As TextBox
     Friend WithEvents ComboBox_Edition As ComboBox
     Friend WithEvents Button_Start As Button
@@ -226,4 +210,5 @@ Partial Class Main
     Friend WithEvents CheckBox_ExcludeOneDrive As CheckBox
     Friend WithEvents LinkLabel_CheckForUpdates As LinkLabel
     Friend WithEvents LinkLabel_Repo As LinkLabel
+    Friend WithEvents Timer_autostart As Timer
 End Class

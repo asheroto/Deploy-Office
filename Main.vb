@@ -9,13 +9,13 @@ Public Class Main
     Public Const SetupFilename As String = "setup.exe"
     Public Const ConfigFilename As String = "configuration.xml"
     Public Const SetupURL As String = "https://officecdn.microsoft.com/pr/wsus/setup.exe"
-    Public Const DefaultYear As String = "2021"
-    Public Const DefaultEdition As String = "Professional Plus - Volume"
-    Public CountdownValue As Integer = 30
+    Public Const DefaultYear As String = "Microsoft 365"
+    Public Const DefaultEdition As String = "Microsoft 365 Enterprise"
     Public ProductID As New Dictionary(Of String, String)
     Public TempPath As String = Path.GetTempPath
     Public SetupPath As String
     Public ConfigPath As String
+    Public autostart As Boolean
 
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Config vars
@@ -26,7 +26,7 @@ Public Class Main
         ComboBox_Edition.DrawMode = DrawMode.OwnerDrawFixed
         AddHandler ComboBox_Edition.DrawItem, AddressOf DrawItem_Edition
 
-        'Set year default to 2021
+        'Set year default to 365
         ComboBox_Year.SelectedItem = DefaultYear
 
         'Configure year drop-down
@@ -84,9 +84,6 @@ Public Class Main
 
         'Default edition selection
         ComboBox_Edition.SelectedItem = DefaultEdition
-
-        'Handle Deploy-Office.ini
-        HandleDeployOfficeIni()
 
         'Fix TLS 1.2 not enabled
         TLSchannelFix()
@@ -159,6 +156,12 @@ Public Class Main
                     CheckBox_ExcludeOneDrive.Checked = IsTrueValue(excludeOneDriveValue)
                 End If
 
+                'Auto Start
+                Dim iniAutoStart As String = GetValueFromConfig(deployConfig, "autostart", False)
+                If iniAutoStart IsNot Nothing Then
+                    autostart = IsTrueValue(iniAutoStart)
+                End If
+
             Catch ex As Exception
                 ' Log any errors encountered during configuration handling
                 LogError("[Deploy-Office.ini] " & ex.Message)
@@ -229,10 +232,6 @@ Public Class Main
 
     Sub Start()
         DisableControls()
-
-        'Disable countdown
-        Timer_Countdown.Enabled = False
-        CountdownLabel.Text = "Running"
 
         Application.DoEvents()
 
@@ -326,15 +325,6 @@ Public Class Main
             OutputAppend("Cleaning up")
             Cleanup()
 
-            ' Finished
-            OutputAppend("Finished")
-            CountdownLabel.Text = "Finished"
-
-            ' Closing window
-            OutputAppend("Closing this window in 30 seconds")
-            WaitToClose()
-            Application.Exit()
-
         Catch ex As Exception
             LogError(ex.Message)
         End Try
@@ -344,13 +334,7 @@ Public Class Main
         Start()
     End Sub
 
-    Private Sub ComboBox_Year_DropDown(sender As Object, e As EventArgs) Handles ComboBox_Year.DropDown
-        PauseCountdown()
-    End Sub
-
     Private Sub ComboBox_Year_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox_Year.SelectedIndexChanged
-        ResetCountdown()
-
         ' Check if the selected year is empty and enable/disable the edition ComboBox accordingly
         If ComboBox_Year.SelectedItem Is Nothing OrElse String.IsNullOrWhiteSpace(ComboBox_Year.SelectedItem.ToString()) Then
             ComboBox_Edition.Enabled = False
@@ -366,13 +350,10 @@ Public Class Main
     End Sub
 
     Private Sub ComboBox_Edition_DropDown(sender As Object, e As EventArgs) Handles ComboBox_Edition.DropDown
-        PauseCountdown()
-
         Button_Start.Focus()
     End Sub
 
     Private Sub ComboBox_Edition_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox_Edition.SelectedIndexChanged
-        ResetCountdown()
 
         If ComboBox_Edition.SelectedIndex < 0 Then Return
 
@@ -390,8 +371,6 @@ Public Class Main
             ComboBox_Edition.SelectedIndex = -1 ' Reset or set to a valid index
 
             LogError("The selected edition is not compatible with the selected year.")
-
-            PauseCountdown()
         End If
 
         CanStartBeEnabled()
@@ -399,32 +378,11 @@ Public Class Main
         Button_Start.Focus()
     End Sub
 
-    Public Sub PauseCountdown()
-        Timer_Countdown.Enabled = False
-        CountdownLabel.Text = "Paused"
-    End Sub
-
-    Public Sub ResetCountdown()
-        Timer_Countdown.Enabled = False
-        CountdownLabel.Text = CountdownValue.ToString()
-        Timer_Countdown.Enabled = True
-    End Sub
-
     Sub CanStartBeEnabled()
         If ComboBox_Edition.SelectedIndex > 0 And ComboBox_Year.SelectedIndex > 0 Then
             Button_Start.Enabled = True
         Else
             Button_Start.Enabled = False
-        End If
-    End Sub
-
-    Private Sub Timer_Countdown_Tick(sender As Object, e As EventArgs) Handles Timer_Countdown.Tick
-        CountdownValue -= 1
-        CountdownLabel.Text = CountdownValue.ToString()
-
-        If CountdownValue = 0 Then
-            Timer_Countdown.Stop() ' Stop the timer when countdown reaches zero
-            Start() ' Call your Start method or any other action for when the countdown finishes
         End If
     End Sub
 
@@ -469,5 +427,16 @@ Public Class Main
 
     Private Sub Main_Closed(sender As Object, e As EventArgs) Handles Me.Closed
         End
+    End Sub
+
+    Private Sub Timer_autostart_Tick(sender As Object, e As EventArgs) Handles Timer_autostart.Tick
+        Timer_autostart.Enabled = False
+
+        'Handle Deploy-Office.ini
+        HandleDeployOfficeIni()
+
+        If autostart = True Then
+            Start()
+        End If
     End Sub
 End Class
