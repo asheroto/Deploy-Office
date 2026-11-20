@@ -7,7 +7,7 @@ Imports System.Web.Script.Serialization
 
 Module Functions
 
-    Sub RunSetup()
+    Function RunSetup() As Integer
         'Run setup
         Dim SetupPath As String = Path.Combine(Main.TempPath, Main.SetupFilename)
         Dim x As New Process
@@ -21,9 +21,10 @@ Module Functions
         'Wait until installation is finished
         Do Until x.HasExited
             Application.DoEvents()
-            Threading.Thread.Sleep(500)
+            Threading.Thread.Sleep(30)
         Loop
-    End Sub
+        Return x.ExitCode
+    End Function
 
     Sub Cleanup()
         DeleteFileIfExist(Main.SetupPath)
@@ -55,19 +56,48 @@ Module Functions
 
     Sub OutputAppend(text As String)
         Main.LogTextbox.AppendText(text & vbNewLine)
+        WriteLog(text)
     End Sub
 
     Sub TLSchannelFix()
-        'Enforce TLS secure channel - fixes issue with Office 365
-        Shell("reg add ""HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client"" /v ""DisabledByDefault"" /t REG_DWORD /d ""0"" /f", vbHidden)
-        Shell("reg add ""HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client"" /v ""Enabled"" /t REG_DWORD /d ""1"" /f", vbHidden)
-        Shell("reg add ""HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Server"" /v ""DisabledByDefault"" /t REG_DWORD /d ""0"" /f", vbHidden)
-        Shell("reg add ""HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Server"" /v ""Enabled"" /t REG_DWORD /d ""1"" /f", vbHidden)
-        Shell("reg add ""HKLM\SOFTWARE\Microsoft\.NETFramework\v4.0.30319"" /v ""SchUseStrongCrypto"" /t REG_DWORD /d ""1"" /f", vbHidden)
-        Shell("reg add ""HKLM\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319"" /v ""SchUseStrongCrypto"" /t REG_DWORD /d ""1"" /f", vbHidden)
+        'Use TLS 1.2 for this program's own downloads, without changing any system settings
+        Net.ServicePointManager.SecurityProtocol = Net.ServicePointManager.SecurityProtocol Or Net.SecurityProtocolType.Tls12
     End Sub
 
+    Private LogWriteFailed As Boolean
+
+    Private LogEnabled As Boolean
+    Private PendingLog As String = ""
+
+    ''' <summary>Turns on the log file and writes anything that happened before the decision was made.</summary>
+    Sub EnableLog()
+        LogEnabled = True
+        WriteLogText(PendingLog)
+        PendingLog = ""
+    End Sub
+
+    Sub WriteLog(message As String)
+        Dim line As String = String.Format("{0:yyyy-MM-dd HH:mm:ss} - {1}", DateTime.Now, message) & vbNewLine
+        ' The log file is opt-in. Lines are held in memory until then so early settings errors are not lost.
+        If LogEnabled Then WriteLogText(line) Else PendingLog &= line
+    End Sub
+
+    Private Sub WriteLogText(text As String)
+        ' Once the log file proves unwritable (read-only share, etc.), say so once and stop trying
+        If LogWriteFailed OrElse text = "" Then Return
+        Try
+            File.AppendAllText(Path.Combine(Application.StartupPath, Main.ErrorLog), text)
+        Catch ex As Exception
+            LogWriteFailed = True
+            OutputError("Error writing to log file: " & ex.Message)
+        End Try
+    End Sub
+
+    Public ErrorCount As Integer
+
     Sub LogError(message As String)
+        ErrorCount += 1
+
         ' Replace newlines in the message to ensure it logs as one line
         Dim singleLineMessage As String = message.Replace(vbCrLf, " ").Replace(vbCr, " ").Replace(vbLf, " ")
 
@@ -75,15 +105,7 @@ Module Functions
         OutputError(singleLineMessage)
 
         ' Log to file
-        Dim logPath As String = Path.Combine(Application.StartupPath, Main.ErrorLog)
-        Dim logEntry As String = String.Format("{0:yyyy-MM-dd HH:mm:ss} - {1}", DateTime.Now, singleLineMessage)
-        Try
-            Using writer As New StreamWriter(logPath, True)
-                writer.WriteLine(logEntry)
-            End Using
-        Catch ex As Exception
-            OutputError("Error writing to log file: " & ex.Message)
-        End Try
+        WriteLog("Error: " & singleLineMessage)
     End Sub
 
     Function ReadIniFile(path As String) As Dictionary(Of String, String)
@@ -112,6 +134,24 @@ Module Functions
             LogError("Error reading INI file: " & ex.Message)
         End Try
 
+        Return data
+    End Function
+
+    ''' <summary>
+    ''' Turns command-line parameters like year=2024, /silent=true or --edition=Word into the same
+    ''' name/value pairs the INI file produces. Anything that is not name=value is reported and skipped.
+    ''' </summary>
+    Function ParseArguments(args As IEnumerable(Of String)) As Dictionary(Of String, String)
+        Dim data As New Dictionary(Of String, String)
+        For Each arg As String In args
+            Dim trimmed As String = arg.TrimStart("/"c, "-"c)
+            Dim split As Integer = trimmed.IndexOf("="c)
+            If split > 0 Then
+                data(trimmed.Substring(0, split).Trim().ToLower()) = trimmed.Substring(split + 1).Trim()
+            Else
+                LogError("Parameter ignored, expected name=value: " & arg)
+            End If
+        Next
         Return data
     End Function
 
@@ -144,8 +184,10 @@ Module Functions
     End Class
 
     Public Class ShortcutHelper
-        Public Shared Sub CreateDesktopShortcuts()
+        Public Shared Sub CreateDesktopShortcuts(allUsers As Boolean)
+            Dim desktop As String = Environment.GetFolderPath(If(allUsers, Environment.SpecialFolder.CommonDesktopDirectory, Environment.SpecialFolder.Desktop))
             Dim OfficeApps As New Dictionary(Of String, String) From {
+                {"WINPROJ.EXE", "Project"},
                 {"WINWORD.EXE", "Word"},
                 {"EXCEL.EXE", "Excel"},
                 {"POWERPNT.EXE", "PowerPoint"},
@@ -160,7 +202,7 @@ Module Functions
                 Dim officePath As String = OfficePathHelper.GetOfficePath(exe.Key)
                 If Not String.IsNullOrEmpty(officePath) AndAlso File.Exists(officePath) Then
                     Debug.WriteLine("Creating shortcut for " & exe.Value & " at " & officePath)
-                    CreateShortcut(officePath, Environment.GetFolderPath(Environment.SpecialFolder.Desktop), exe.Value)
+                    CreateShortcut(officePath, desktop, exe.Value)
                 End If
             Next
         End Sub

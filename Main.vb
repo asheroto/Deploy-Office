@@ -12,10 +12,16 @@ Public Class Main
     Public Const DefaultYear As String = "Microsoft 365"
     Public Const DefaultEdition As String = "Microsoft 365 Enterprise"
     Public ProductID As New Dictionary(Of String, String)
+    ' Display name -> ExcludeApp ID used by the Office Deployment Tool, filled in Main_Load
+    Public AppIDs As New Dictionary(Of String, String)
     Public TempPath As String = Path.GetTempPath
     Public SetupPath As String
     Public ConfigPath As String
     Public autostart As Boolean
+    Private autostartSecondsLeft As Integer = 10
+    Private settingsHadErrors As Boolean
+    Public autoclose As Boolean
+    Public silent As Boolean
 
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Config vars
@@ -24,6 +30,7 @@ Public Class Main
 
         'Prep comboboxes
         ComboBox_Edition.DrawMode = DrawMode.OwnerDrawFixed
+        ComboBox_Edition.ItemHeight = ComboBox_Year.ItemHeight
         AddHandler ComboBox_Edition.DrawItem, AddressOf DrawItem_Edition
 
         'Set year default to 365
@@ -85,8 +92,61 @@ Public Class Main
         'Default edition selection
         ComboBox_Edition.SelectedItem = DefaultEdition
 
+        'Apps to install, all checked by default
+        AppIDs = New Dictionary(Of String, String) From {
+            {"Word", "Word"},
+            {"Excel", "Excel"},
+            {"PowerPoint", "PowerPoint"},
+            {"Outlook", "Outlook"},
+            {"New Outlook", "OutlookForWindows"},
+            {"OneNote", "OneNote"},
+            {"Access", "Access"},
+            {"Publisher", "Publisher"},
+            {"Teams", "Teams"},
+            {"OneDrive", "OneDrive"},
+            {"Skype", "Lync"}
+        }
+        For Each app As String In AppIDs.Keys
+            CheckedListBox_Apps.Items.Add(app, True)
+        Next
+
+        'Two links in one label: "Select all" checks every app, "Select none" clears them
+        LinkLabel_AppsSelect.Links.Clear()
+        LinkLabel_AppsSelect.Links.Add(0, 10, True)
+        LinkLabel_AppsSelect.Links.Add(13, 11, False)
+
+        'Shortcuts go to the Public Desktop by default
+        ComboBox_ShortcutScope.SelectedIndex = 0
+
         'Fix TLS 1.2 not enabled
         TLSchannelFix()
+
+        'Layout bits that Windows Forms does not scale with the display: four even columns of apps,
+        'exactly three rows tall, and divider lines the same width as the Install button
+        CheckedListBox_Apps.ColumnWidth = CheckedListBox_Apps.Width \ 4
+        CheckedListBox_Apps.Height = (CheckedListBox_Apps.Font.Height + 2) * 3 + 6
+        Dim slack As Integer = Label_Sep2.Top - CheckedListBox_Apps.Bottom - CheckedListBox_Apps.Font.Height \ 2
+        For Each c As Control In Controls
+            If c.Top > CheckedListBox_Apps.Top Then c.Top -= slack
+        Next
+        Height -= slack
+        ActiveControl = Button_Start
+        For Each divider As Label In {Label_Sep1, Label_Sep2, Label_Sep3}
+            divider.SetBounds(Button_Start.Left, divider.Top, Button_Start.Width, 1)
+        Next
+
+        'Handle Deploy-Office.ini
+        HandleDeployOfficeIni()
+
+        'Silent + autostart means no windows at all: hide ours too and exit with the result when done
+        If autostart AndAlso silent Then
+            autoclose = True
+            Opacity = 0
+            ShowInTaskbar = False
+        End If
+
+        'Only greet when there is nothing more important (a settings error) to show
+        If LogTextbox.TextLength = 0 Then LogTextbox.Text = "Ready. Choose your options and click Install."
     End Sub
 
     Private Sub DrawItem_Edition(sender As Object, e As DrawItemEventArgs)
@@ -109,8 +169,9 @@ Public Class Main
         e.DrawBackground()
 
         ' Set text color based on disabled state
-        Dim itemColor As Brush = If(isDisabled, Brushes.Gray, Brushes.Black)
-        e.Graphics.DrawString(itemText, e.Font, itemColor, e.Bounds)
+        Dim selected As Boolean = (e.State And DrawItemState.Selected) = DrawItemState.Selected
+        Dim itemColor As Color = If(isDisabled, Color.Gray, If(selected, SystemColors.HighlightText, SystemColors.WindowText))
+        TextRenderer.DrawText(e.Graphics, itemText, e.Font, e.Bounds, itemColor, TextFormatFlags.Left Or TextFormatFlags.VerticalCenter)
 
         ' Draw focus rectangle if item has focus
         e.DrawFocusRectangle()
@@ -125,18 +186,24 @@ Public Class Main
 
         ' Set the path for the current deployment configuration
         Dim deployConfigPath As String = Path.Combine(Application.StartupPath, AutomatedDeployment)
-        If File.Exists(deployConfigPath) Then
+        Dim errorsBefore As Integer = ErrorCount
+        Dim wantLog As Boolean = False
+        Dim deployConfig As New Dictionary(Of String, String)
+        If File.Exists(deployConfigPath) Then deployConfig = ReadIniFile(deployConfigPath)
+
+        ' Command-line parameters use the same names as the INI and win over it
+        For Each setting As KeyValuePair(Of String, String) In ParseArguments(Environment.GetCommandLineArgs().Skip(1))
+            deployConfig(setting.Key) = setting.Value
+        Next
+
+        If deployConfig.Count > 0 Then
             Try
-                ' Read configuration from the INI file
-                Dim deployConfig As Dictionary(Of String, String) = ReadIniFile(deployConfigPath)
+                ' Year and edition keep the window's defaults when not given
+                Dim yearValue As String = GetValueFromConfig(deployConfig, "year", False)
+                If yearValue IsNot Nothing Then SetComboBoxValue(ComboBox_Year, yearValue)
 
-                ' Validate and set the year
-                Dim yearValue As String = GetValueFromConfig(deployConfig, "year")
-                SetComboBoxValue(ComboBox_Year, yearValue)
-
-                ' Validate and set the edition
-                Dim editionValue As String = GetValueFromConfig(deployConfig, "edition")
-                SetComboBoxValue(ComboBox_Edition, editionValue)
+                Dim editionValue As String = GetValueFromConfig(deployConfig, "edition", False)
+                If editionValue IsNot Nothing Then SetComboBoxValue(ComboBox_Edition, editionValue)
 
                 ' Handle shortcuts setting
                 Dim shortcutsValue As String = GetValueFromConfig(deployConfig, "shortcuts", False)
@@ -144,16 +211,60 @@ Public Class Main
                     CheckBox_CreateDesktopShortcuts.Checked = IsTrueValue(shortcutsValue)
                 End If
 
-                'Exclude Teams
-                Dim excludeTeamsValue As String = GetValueFromConfig(deployConfig, "exclude_teams", False)
-                If excludeTeamsValue IsNot Nothing Then
-                    CheckBox_ExcludeTeams.Checked = IsTrueValue(excludeTeamsValue)
+                'Shortcut scope: all (Public Desktop) or user (current user's Desktop)
+                Dim scopeValue As String = GetValueFromConfig(deployConfig, "shortcuts_scope", False)
+                If scopeValue IsNot Nothing Then
+                    ComboBox_ShortcutScope.SelectedIndex = If(scopeValue.Trim().ToLower() = "user", 1, 0)
                 End If
 
-                'Exclude OneDrive
+                'Exclude apps, comma-separated list of app names or ODT IDs
+                Dim excludeAppsValue As String = GetValueFromConfig(deployConfig, "exclude_apps", False)
+                If excludeAppsValue IsNot Nothing Then
+                    For Each app As String In excludeAppsValue.Split(","c)
+                        SetAppChecked(app.Trim(), False)
+                    Next
+                End If
+
+                'Legacy keys, still honored
+                Dim excludeTeamsValue As String = GetValueFromConfig(deployConfig, "exclude_teams", False)
+                If excludeTeamsValue IsNot Nothing Then
+                    SetAppChecked("Teams", Not IsTrueValue(excludeTeamsValue))
+                End If
                 Dim excludeOneDriveValue As String = GetValueFromConfig(deployConfig, "exclude_onedrive", False)
                 If excludeOneDriveValue IsNot Nothing Then
-                    CheckBox_ExcludeOneDrive.Checked = IsTrueValue(excludeOneDriveValue)
+                    SetAppChecked("OneDrive", Not IsTrueValue(excludeOneDriveValue))
+                End If
+
+                'Add-ons
+                Dim addVisioValue As String = GetValueFromConfig(deployConfig, "add_visio", False)
+                If addVisioValue IsNot Nothing Then
+                    CheckBox_AddVisio.Checked = IsTrueValue(addVisioValue)
+                End If
+                Dim addProjectValue As String = GetValueFromConfig(deployConfig, "add_project", False)
+                If addProjectValue IsNot Nothing Then
+                    CheckBox_AddProject.Checked = IsTrueValue(addProjectValue)
+                End If
+
+                'Remove MSI-based Office first
+                Dim removeMsiValue As String = GetValueFromConfig(deployConfig, "remove_msi", False)
+                If removeMsiValue IsNot Nothing Then
+                    CheckBox_RemoveMSI.Checked = IsTrueValue(removeMsiValue)
+                End If
+
+                'Unattended options
+                Dim silentValue As String = GetValueFromConfig(deployConfig, "silent", False)
+                If silentValue IsNot Nothing Then
+                    silent = IsTrueValue(silentValue)
+                End If
+                Dim autoCloseValue As String = GetValueFromConfig(deployConfig, "autoclose", False)
+                If autoCloseValue IsNot Nothing Then
+                    autoclose = IsTrueValue(autoCloseValue)
+                End If
+
+                'Log file
+                Dim logValue As String = GetValueFromConfig(deployConfig, "log", False)
+                If logValue IsNot Nothing Then
+                    wantLog = IsTrueValue(logValue)
                 End If
 
                 'Auto Start
@@ -164,9 +275,14 @@ Public Class Main
 
             Catch ex As Exception
                 ' Log any errors encountered during configuration handling
-                LogError("[Deploy-Office.ini] " & ex.Message)
+                LogError("[Settings] " & ex.Message)
             End Try
         End If
+
+        settingsHadErrors = ErrorCount > errorsBefore
+
+        ' Write Deploy-Office.log only when asked, or when the window will not be there to read afterwards
+        If wantLog OrElse silent OrElse autoclose Then EnableLog()
     End Sub
 
     Private Sub SetComboBoxValue(comboBox As ComboBox, value As String)
@@ -188,7 +304,7 @@ Public Class Main
                     Return
                 Else
                     ' Log error if index is out of range
-                    LogError("[Deploy-Office.ini] Index value is out of range: " & value)
+                    LogError("[Settings] Index value is out of range: " & value)
                     Return
                 End If
             End If
@@ -201,8 +317,20 @@ Public Class Main
             comboBox.SelectedIndex = matchIndex
         Else
             ' Log error if no match is found
-            LogError("[Deploy-Office.ini] Value not found in ComboBox: " & value)
+            LogError("[Settings] Not a valid year or edition: " & value)
         End If
+    End Sub
+
+    Private Sub SetAppChecked(app As String, isChecked As Boolean)
+        ' Accept either the display name or the ODT ID (e.g. Skype or Lync)
+        For i As Integer = 0 To CheckedListBox_Apps.Items.Count - 1
+            Dim name As String = CheckedListBox_Apps.Items(i).ToString()
+            If String.Equals(name, app, StringComparison.OrdinalIgnoreCase) OrElse String.Equals(AppIDs(name), app, StringComparison.OrdinalIgnoreCase) Then
+                CheckedListBox_Apps.SetItemChecked(i, isChecked)
+                Return
+            End If
+        Next
+        LogError("[Settings] Unknown app: " & app)
     End Sub
 
     Private Function IsTrueValue(value As String) As Boolean
@@ -225,20 +353,53 @@ Public Class Main
         ComboBox_Edition.Enabled = False
         ComboBox_Year.Enabled = False
         CheckBox_CreateDesktopShortcuts.Enabled = False
-        CheckBox_ExcludeTeams.Enabled = False
-        CheckBox_ExcludeOneDrive.Enabled = False
+        ComboBox_ShortcutScope.Enabled = False
+        CheckedListBox_Apps.Enabled = False
+        LinkLabel_AppsSelect.Enabled = False
+        CheckBox_AddVisio.Enabled = False
+        CheckBox_AddProject.Enabled = False
+        CheckBox_RemoveMSI.Enabled = False
         Button_Start.Enabled = False
+    End Sub
+
+    Sub EnableControls()
+        ComboBox_Year.Enabled = True
+        ComboBox_Edition.Enabled = True
+        CheckBox_CreateDesktopShortcuts.Enabled = True
+        ComboBox_ShortcutScope.Enabled = CheckBox_CreateDesktopShortcuts.Checked
+        CheckedListBox_Apps.Enabled = True
+        LinkLabel_AppsSelect.Enabled = True
+        CheckBox_AddVisio.Enabled = True
+        CheckBox_AddProject.Enabled = True
+        CheckBox_RemoveMSI.Enabled = True
+        CanStartBeEnabled()
     End Sub
 
     Sub Start()
         DisableControls()
+        LogTextbox.Clear()
+        Button_Start.Text = "Installing..."
+        ProgressBar_Install.Visible = True
 
         Application.DoEvents()
 
-        GoRun()
+        Dim exitCode As Integer = GoRun()
+
+        ' Unattended runs hand setup's result back to whatever launched us (RMM, script)
+        If autoclose Then Environment.Exit(exitCode)
+
+        ProgressBar_Install.Visible = False
+        Button_Start.Text = "Install"
+        EnableControls()
     End Sub
 
-    Sub GoRun()
+    Private Sub Button_Start_EnabledChanged(sender As Object, e As EventArgs) Handles Button_Start.EnabledChanged
+        ' Accent blue when it can be clicked, gray when it cannot
+        Button_Start.BackColor = If(Button_Start.Enabled, Color.FromArgb(0, 103, 192), Color.FromArgb(204, 204, 204))
+    End Sub
+
+    ''' <summary>Runs the install. Returns 0 on success, setup.exe's exit code if setup failed, or 1 for any other failure.</summary>
+    Function GoRun() As Integer
         Try
             ' Prepare folder
             OutputAppend("Preparing")
@@ -247,8 +408,20 @@ Public Class Main
             ' Download setup.exe
             OutputAppend("Downloading setup.exe from Microsoft")
             Using wc As New Net.WebClient
-                wc.DownloadFile(SetupURL, SetupPath)
+                ' Download in the background so the window keeps responding
+                Dim download As Task = wc.DownloadFileTaskAsync(SetupURL, SetupPath)
+                Do Until download.IsCompleted
+                    Application.DoEvents()
+                    Threading.Thread.Sleep(30)
+                Loop
+                download.GetAwaiter().GetResult()
             End Using
+
+            ' setup.exe runs elevated, so make sure it really is Microsoft's before running it
+            OutputAppend("Verifying setup.exe is signed by Microsoft")
+            If Not IsSignedByMicrosoft(SetupPath) Then
+                Throw New Exception("setup.exe does not have a valid Microsoft signature, so it was not run.")
+            End If
 
             ' Extract configuration.xml from resources
             OutputAppend("Extracting configuration.xml")
@@ -268,6 +441,8 @@ Public Class Main
                 Else
                     Configuration = Configuration.Replace("{CHANNEL}", "Current")
                 End If
+            Else
+                Configuration = Configuration.Replace("{CHANNEL}", "Current")
             End If
             Configuration = Configuration.Replace("{PRODUCTID}", ProductIDValue)
 
@@ -279,19 +454,45 @@ Public Class Main
             Dim settings As New XmlWriterSettings()
             settings.OmitXmlDeclaration = True ' Omit the XML declaration line
 
-            ' Check if CheckBoxes are checked and create the exclusion nodes
-            Dim productNode As XmlNode = xmlDoc.SelectSingleNode("/Configuration/Add/Product")
+            ' Add Visio/Project as extra products, matching the main product's year and license type
+            Dim addNode As XmlNode = xmlDoc.SelectSingleNode("/Configuration/Add")
+            Dim mainProduct As XmlNode = addNode.SelectSingleNode("Product")
+            Dim addOns As New List(Of String)
+            If CheckBox_AddVisio.Checked Then addOns.Add("VisioPro")
+            If CheckBox_AddProject.Checked Then addOns.Add("ProjectPro")
+            For Each addOn As String In addOns
+                ' Skip if the main product already is Visio/Project
+                If ProductIDValue.StartsWith(If(addOn = "VisioPro", "Visio", "Project")) Then Continue For
+                Dim addOnID As String
+                If SelectedYear = "Microsoft 365" Then
+                    addOnID = addOn & "Retail"
+                Else
+                    addOnID = addOn & SelectedYear & If(ComboBox_Edition.Text.Contains("Volume"), "Volume", "Retail")
+                End If
+                Dim newProduct As XmlNode = mainProduct.CloneNode(True)
+                CType(newProduct, XmlElement).SetAttribute("ID", addOnID)
+                addNode.AppendChild(newProduct)
+            Next
 
-            If CheckBox_ExcludeOneDrive.Checked Then
-                Dim onedriveNode As XmlElement = xmlDoc.CreateElement("ExcludeApp")
-                onedriveNode.SetAttribute("ID", "OneDrive")
-                productNode.AppendChild(onedriveNode)
+            ' Unchecked apps become ExcludeApp entries on every product so the ODT applies them consistently
+            For Each productNode As XmlNode In addNode.SelectNodes("Product")
+                For Each app As String In AppIDs.Keys
+                    If Not CheckedListBox_Apps.CheckedItems.Contains(app) Then
+                        Dim excludeNode As XmlElement = xmlDoc.CreateElement("ExcludeApp")
+                        excludeNode.SetAttribute("ID", AppIDs(app))
+                        productNode.AppendChild(excludeNode)
+                    End If
+                Next
+            Next
+
+            ' Remove MSI-based Office (2016 and earlier) before installing
+            If CheckBox_RemoveMSI.Checked Then
+                xmlDoc.DocumentElement.AppendChild(xmlDoc.CreateElement("RemoveMSI"))
             End If
 
-            If CheckBox_ExcludeTeams.Checked Then
-                Dim teamsNode As XmlElement = xmlDoc.CreateElement("ExcludeApp")
-                teamsNode.SetAttribute("ID", "Teams")
-                productNode.AppendChild(teamsNode)
+            ' Hide the Office setup window
+            If silent Then
+                CType(xmlDoc.SelectSingleNode("/Configuration/Display"), XmlElement).SetAttribute("Level", "None")
             End If
 
             ' Convert the XmlDocument back to a string without the XML declaration
@@ -313,25 +514,67 @@ Public Class Main
             ' Run setup
             OutputAppend("Running setup")
             OutputAppend("Setup may run in background (system tray)")
-            RunSetup()
+            Dim exitCode As Integer = RunSetup()
 
-            ' Create desktop shortcuts if needed
-            If CheckBox_CreateDesktopShortcuts.Checked Then
-                OutputAppend("Creating desktop shortcuts")
-                ShortcutHelper.CreateDesktopShortcuts()
+            If exitCode = 0 Then
+                ' Create desktop shortcuts if needed
+                If CheckBox_CreateDesktopShortcuts.Checked Then
+                    OutputAppend("Creating desktop shortcuts")
+                    ShortcutHelper.CreateDesktopShortcuts(ComboBox_ShortcutScope.SelectedIndex = 0)
+                End If
             End If
 
             ' Cleanup
             OutputAppend("Cleaning up")
             Cleanup()
 
+            If exitCode = 0 Then
+                OutputAppend("Done. Office installed successfully.")
+            Else
+                LogError("Office setup failed with exit code " & exitCode & ". Nothing else was changed. Microsoft's setup logs are in " & TempPath & " and C:\Windows\Temp.")
+            End If
+            Return exitCode
+
         Catch ex As Exception
             LogError(ex.Message)
+            Cleanup()
+            Return 1
         End Try
-    End Sub
+    End Function
 
     Private Sub Button_Start_Click(sender As Object, e As EventArgs) Handles Button_Start.Click
+        ' A click during the autostart countdown cancels it
+        If Timer_autostart.Enabled Then
+            CancelAutostart()
+            Return
+        End If
+
         Start()
+    End Sub
+
+    Private Sub CancelAutostart()
+        If Not Timer_autostart.Enabled Then Return
+        Timer_autostart.Enabled = False
+        Button_Start.Text = "Install"
+        LogTextbox.Text = "Automatic start canceled. Click Install when you are ready."
+    End Sub
+
+    ' Touching any option during the countdown means a person is here and choosing, so stop it
+    Private Sub Options_Touched(sender As Object, e As EventArgs) Handles _
+            ComboBox_Year.DropDown, ComboBox_Year.SelectionChangeCommitted,
+            ComboBox_Edition.DropDown, ComboBox_Edition.SelectionChangeCommitted,
+            ComboBox_ShortcutScope.DropDown, ComboBox_ShortcutScope.SelectionChangeCommitted,
+            CheckedListBox_Apps.Click, CheckedListBox_Apps.KeyDown,
+            CheckBox_AddVisio.Click, CheckBox_AddProject.Click,
+            CheckBox_CreateDesktopShortcuts.Click, CheckBox_RemoveMSI.Click
+        CancelAutostart()
+    End Sub
+
+    Private Sub LinkLabel_AppsSelect_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel_AppsSelect.LinkClicked
+        CancelAutostart()
+        For i As Integer = 0 To CheckedListBox_Apps.Items.Count - 1
+            CheckedListBox_Apps.SetItemChecked(i, CBool(e.Link.LinkData))
+        Next
     End Sub
 
     Private Sub ComboBox_Year_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox_Year.SelectedIndexChanged
@@ -347,6 +590,10 @@ Public Class Main
         ComboBox_Edition.Refresh()
 
         CanStartBeEnabled()
+    End Sub
+
+    Private Sub CheckBox_CreateDesktopShortcuts_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox_CreateDesktopShortcuts.CheckedChanged
+        ComboBox_ShortcutScope.Enabled = CheckBox_CreateDesktopShortcuts.Checked
     End Sub
 
     Private Sub ComboBox_Edition_DropDown(sender As Object, e As EventArgs) Handles ComboBox_Edition.DropDown
@@ -407,9 +654,16 @@ Public Class Main
         ' Call CheckForUpdates asynchronously
         Dim latestVersion As String = Await CheckForUpdates()
 
-        LinkLabel_CheckForUpdates.Text = "Check for Updates"
+        LinkLabel_CheckForUpdates.Text = "Check for updates"
 
-        If latestVersion IsNot Nothing AndAlso New Version(latestVersion) > New Version(Application.ProductVersion) Then
+        ' A failed check returns error text instead of a version, so parse instead of assuming
+        Dim latest As Version = Nothing
+        If latestVersion Is Nothing OrElse Not Version.TryParse(latestVersion.TrimStart("v"c), latest) Then
+            MessageBox.Show("Could not check for updates. Check your internet connection and try again.", ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        If latest > New Version(Application.ProductVersion) Then
             Dim result As DialogResult = MessageBox.Show($"A new version of {ApplicationName} is available. Would you like to download it now?", ApplicationName, MessageBoxButtons.YesNo, MessageBoxIcon.Information)
             If result = DialogResult.Yes Then
                 ' Open the releases page in the default browser
@@ -430,13 +684,29 @@ Public Class Main
     End Sub
 
     Private Sub Timer_autostart_Tick(sender As Object, e As EventArgs) Handles Timer_autostart.Tick
-        Timer_autostart.Enabled = False
-
-        'Handle Deploy-Office.ini
-        HandleDeployOfficeIni()
-
-        If autostart = True Then
-            Start()
+        If Not autostart Then
+            Timer_autostart.Enabled = False
+            Return
         End If
+
+        ' A mistyped setting falls back to a default, so never install unattended on top of one.
+        ' Say so, and do not leave a hidden window hanging.
+        If settingsHadErrors OrElse Not Button_Start.Enabled Then
+            Timer_autostart.Enabled = False
+            LogError("[Settings] Automatic start was skipped because of the settings problem above. Fix it, or pick the options here and click Install.")
+            If autoclose Then Environment.Exit(1)
+            Return
+        End If
+
+        ' Silent runs start right away. Visible runs count down so a person can cancel.
+        If silent OrElse autostartSecondsLeft <= 0 Then
+            Timer_autostart.Enabled = False
+            Start()
+            Return
+        End If
+
+        Timer_autostart.Interval = 1000
+        Button_Start.Text = $"Installing in {autostartSecondsLeft} - click to cancel"
+        autostartSecondsLeft -= 1
     End Sub
 End Class
