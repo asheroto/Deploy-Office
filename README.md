@@ -18,7 +18,7 @@ Everything is downloaded from the cloud, so you'll always have the latest versio
 
 Desktop shortcuts will also be created by default for any installed Office applications, on the Public Desktop so every user on the PC sees them. Pick **Current user only** to put them on your own Desktop instead. Office itself is always installed for all users on the PC.
 
-Uncheck any apps you don't want (Access, Publisher, Teams, OneDrive, and so on), and tick **Visio Professional** or **Project Professional** to install them alongside Office in the same run.
+Uncheck any apps you don't want (Access, Publisher, Teams, OneDrive, and so on). To install only one or two apps, click **Select none** and check just those. Tick **Visio Professional** or **Project Professional** to install them alongside Office in the same run.
 
 If the PC has an older MSI-based Office (2016 or earlier), tick **Remove old MSI versions of Office** to uninstall it as part of the install.
 
