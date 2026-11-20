@@ -1,13 +1,14 @@
-﻿
-[![Release](https://img.shields.io/github/v/release/asheroto/Deploy-Office)](https://github.com/asheroto/Deploy-Office/releases)
-[![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/asheroto/Deploy-Office)](https://github.com/asheroto/Deploy-Office/releases)
+<img width="600" alt="screenshot" src="https://github.com/user-attachments/assets/38af8580-55d0-4ecf-b785-b470759ae0b9" /><br />
+
+[![GitHub Downloads - All Releases](https://img.shields.io/github/downloads/asheroto/winget-install/total?label=release%20downloads)](https://github.com/asheroto/winget-install/releases)
+[![Release](https://img.shields.io/github/v/release/asheroto/winget-install)](https://github.com/asheroto/winget-install/releases)
+[![GitHub Release Date - Published_At](https://img.shields.io/github/release-date/asheroto/winget-install)](https://github.com/asheroto/winget-install/releases)
+
 [![GitHub Sponsor](https://img.shields.io/github/sponsors/asheroto?label=Sponsor&logo=GitHub)](https://github.com/sponsors/asheroto?frequency=one-time&sponsor=asheroto)
 <a href="https://ko-fi.com/asheroto"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Ko-Fi Button" height="20px"></a>
-<a href="https://www.buymeacoffee.com/asheroto"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=Deploy-Office&button_colour=FFDD00&font_colour=000000&font_family=Lato&outline_colour=000000&coffee_colour=ffffff)" height="40px"></a>
+<a href="https://www.buymeacoffee.com/asheroto"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" height="40px"></a>
 
 # Deploy Office
-
-<img width="600" alt="screenshot" src="https://github.com/user-attachments/assets/38af8580-55d0-4ecf-b785-b470759ae0b9" />
 
 > [!NOTE]
 > Installation only starts by itself if you set `autostart=true` in `Deploy-Office.ini` or on the command line, as shown below. It then counts down for 10 seconds first, and clicking the button or changing any option cancels it.
