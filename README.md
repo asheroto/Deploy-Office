@@ -7,7 +7,7 @@
 
 # Deploy Office
 
-<img width="702" height="776" alt="screenshot" src="https://github.com/user-attachments/assets/38af8580-55d0-4ecf-b785-b470759ae0b9" />
+<img width="600" alt="screenshot" src="https://github.com/user-attachments/assets/38af8580-55d0-4ecf-b785-b470759ae0b9" />
 
 > [!NOTE]
 > Installation only starts by itself if you set `autostart=true` in `Deploy-Office.ini` or on the command line, as shown below. It then counts down for 10 seconds first, and clicking the button or changing any option cancels it.
